@@ -7,10 +7,12 @@ class ReadIndicator extends StatelessWidget {
     super.key,
     required this.message,
     required this.isMessageBySender,
+    this.textStyle,
   });
 
   final Message message;
   final bool isMessageBySender;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,11 @@ class ReadIndicator extends StatelessWidget {
           children: [
             Text(
               DateFormat.Hm().format(message.createdAt),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-              ),
+              style: textStyle?.copyWith(fontSize: 10) ??
+                  const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
             ),
             if (isMessageBySender)
               Padding(

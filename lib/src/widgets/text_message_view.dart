@@ -111,6 +111,7 @@ class TextMessageView extends StatelessWidget {
                       child: ReadIndicator(
                         message: message,
                         isMessageBySender: isMessageBySender,
+                        textStyle: _textStyle,
                       ),
                     ),
                   ],
@@ -157,30 +158,3 @@ class TextMessageView extends StatelessWidget {
       ? outgoingChatBubbleConfig?.color ?? Colors.purple
       : inComingChatBubbleConfig?.color ?? Colors.grey.shade500;
 }
-
-
-// Row(
-//                         crossAxisAlignment: CrossAxisAlignment.end,
-//                         children: [
-//                           Text(
-//                             DateFormat.Hm().format(message.createdAt),
-//                             style: _textStyle?.copyWith(
-//                                   fontSize: 10,
-//                                 ) ??
-//                                 textTheme.bodyMedium!.copyWith(
-//                                   color: Colors.white,
-//                                   fontSize: 10,
-//                                 ),
-//                           ),
-//                           const SizedBox(width: 2),
-//                           outgoingChatBubbleConfig != null
-//                               ? Icon(
-//                                   message.status == MessageStatus.read
-//                                       ? Icons.done_all
-//                                       : Icons.done,
-//                                   color: Colors.white,
-//                                   size: 15,
-//                                 )
-//                               : const SizedBox(),
-//                         ],
-//                       ),
