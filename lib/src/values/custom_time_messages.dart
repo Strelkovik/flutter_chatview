@@ -14,27 +14,27 @@ class ReceiptsCustomMessages implements LookupMessages {
   @override
   String suffixFromNow() => '';
   @override
-  String lessThanOneMinute(int seconds) => 'now';
+  String lessThanOneMinute(int seconds) => 'Сейчас';
   @override
-  String aboutAMinute(int minutes) => '$minutes m ago';
+  String aboutAMinute(int minutes) => '$minutes минут назад';
   @override
-  String minutes(int minutes) => '$minutes m ago';
+  String minutes(int minutes) => '$minutes м назад';
   @override
-  String aboutAnHour(int minutes) => '$minutes m ago';
+  String aboutAnHour(int minutes) => '$minutes м назад';
   @override
-  String hours(int hours) => '$hours h ago';
+  String hours(int hours) => '$hours часов назад';
   @override
-  String aDay(int hours) => '$hours h ago';
+  String aDay(int hours) => '$hours часов назад';
   @override
-  String days(int days) => '$days d ago';
+  String days(int days) => '$days дней назад';
   @override
-  String aboutAMonth(int days) => '$days d ago';
+  String aboutAMonth(int days) => '$days дней назад';
   @override
-  String months(int months) => '$months mo ago';
+  String months(int months) => '$months месяцев назад';
   @override
-  String aboutAYear(int year) => '$year y ago';
+  String aboutAYear(int year) => '$year лет назад';
   @override
-  String years(int years) => '$years y ago';
+  String years(int years) => '$years лет назад';
   @override
   String wordSeparator() => ' ';
 }

@@ -19,6 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import 'package:chatview/chatview.dart';
+import 'package:chatview/src/widgets/read_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatview/src/extensions/extensions.dart';
@@ -93,13 +95,25 @@ class TextMessageView extends StatelessWidget {
                   linkPreviewConfig: _linkPreviewConfig,
                   url: textMessage,
                 )
-              : Text(
-                  textMessage,
-                  style: _textStyle ??
-                      textTheme.bodyMedium!.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      textMessage,
+                      style: _textStyle ??
+                          textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: ReadIndicator(
+                        message: message,
+                        isMessageBySender: isMessageBySender,
                       ),
+                    ),
+                  ],
                 ),
         ),
         if (message.reaction.reactions.isNotEmpty)
@@ -143,3 +157,30 @@ class TextMessageView extends StatelessWidget {
       ? outgoingChatBubbleConfig?.color ?? Colors.purple
       : inComingChatBubbleConfig?.color ?? Colors.grey.shade500;
 }
+
+
+// Row(
+//                         crossAxisAlignment: CrossAxisAlignment.end,
+//                         children: [
+//                           Text(
+//                             DateFormat.Hm().format(message.createdAt),
+//                             style: _textStyle?.copyWith(
+//                                   fontSize: 10,
+//                                 ) ??
+//                                 textTheme.bodyMedium!.copyWith(
+//                                   color: Colors.white,
+//                                   fontSize: 10,
+//                                 ),
+//                           ),
+//                           const SizedBox(width: 2),
+//                           outgoingChatBubbleConfig != null
+//                               ? Icon(
+//                                   message.status == MessageStatus.read
+//                                       ? Icons.done_all
+//                                       : Icons.done,
+//                                   color: Colors.white,
+//                                   size: 15,
+//                                 )
+//                               : const SizedBox(),
+//                         ],
+//                       ),

@@ -22,11 +22,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'reaction_widget.dart';
+import 'read_indicator.dart';
 import 'share_icon.dart';
 
 class ImageMessageView extends StatelessWidget {
@@ -139,6 +142,14 @@ class ImageMessageView extends StatelessWidget {
                 reaction: message.reaction,
                 messageReactionConfig: messageReactionConfig,
               ),
+            Positioned(
+              right: 16,
+              bottom: 16,
+              child: ReadIndicator(
+                message: message,
+                isMessageBySender: isMessageBySender,
+              ),
+            ),
           ],
         ),
         if (!isMessageBySender) iconButton,

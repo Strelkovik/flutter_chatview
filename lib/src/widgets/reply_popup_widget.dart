@@ -93,27 +93,27 @@ class ReplyPopupWidget extends StatelessWidget {
                 ),
               ),
             ),
-          if (!sentByCurrentUser)
-            Expanded(
-              child: InkWell(
-                onTap: onReportTap,
-                child: Text(
-                  PackageStrings.report,
-                  textAlign: TextAlign.center,
-                  style: textStyle,
-                ),
-              ),
-            ),
-          Expanded(
-            child: InkWell(
-              onTap: onMoreTap,
-              child: Text(
-                PackageStrings.more,
-                textAlign: TextAlign.center,
-                style: textStyle,
-              ),
-            ),
-          ),
+          // if (!sentByCurrentUser)
+          //   Expanded(
+          //     child: InkWell(
+          //       onTap: onReportTap,
+          //       child: Text(
+          //         PackageStrings.report,
+          //         textAlign: TextAlign.center,
+          //         style: textStyle,
+          //       ),
+          //     ),
+          //   ),
+          // Expanded(
+          //   child: InkWell(
+          //     onTap: onMoreTap,
+          //     child: Text(
+          //       PackageStrings.more,
+          //       textAlign: TextAlign.center,
+          //       style: textStyle,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

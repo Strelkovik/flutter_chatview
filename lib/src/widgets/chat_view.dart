@@ -173,7 +173,7 @@ class _ChatViewState extends State<ChatView>
   @override
   void initState() {
     super.initState();
-    setLocaleMessages('en', ReceiptsCustomMessages());
+    setLocaleMessages('ru', ReceiptsCustomMessages());
   }
 
   @override
