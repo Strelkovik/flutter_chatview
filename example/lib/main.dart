@@ -227,6 +227,7 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: theme.replyPopupColor,
           buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
           topBorderColor: theme.replyPopupTopBorderColor,
+          onMoreTap: (message, sentByCurrentUser) {},
         ),
         reactionPopupConfig: ReactionPopupConfiguration(
           shadow: BoxShadow(

@@ -54,6 +54,8 @@ class Message {
   /// Provides max duration for recorded voice message.
   Duration? voiceMessageDuration;
 
+  final int? messageClientId;
+
   Message({
     this.id = '',
     required this.message,
@@ -63,6 +65,7 @@ class Message {
     Reaction? reaction,
     this.messageType = MessageType.text,
     this.voiceMessageDuration,
+    this.messageClientId,
     MessageStatus status = MessageStatus.pending,
   })  : reaction = reaction ?? Reaction(reactions: [], reactedUserIds: []),
         key = GlobalKey(),
@@ -122,6 +125,7 @@ class Message {
         'message_type': messageType.name,
         'voice_message_duration': voiceMessageDuration?.inMicroseconds,
         'status': status.name,
+        'messageClientId': messageClientId
       };
 
   Message copyWith({
@@ -136,6 +140,7 @@ class Message {
     Duration? voiceMessageDuration,
     MessageStatus? status,
     bool forceNullValue = false,
+    int? messageClientId,
   }) {
     return Message(
       id: id ?? this.id,
