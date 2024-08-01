@@ -98,13 +98,15 @@ class TextMessageView extends StatelessWidget {
               : Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      textMessage,
-                      style: _textStyle ??
-                          textTheme.bodyMedium!.copyWith(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                    Flexible(
+                      child: Text(
+                        textMessage,
+                        style: _textStyle ??
+                            textTheme.bodyMedium!.copyWith(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
