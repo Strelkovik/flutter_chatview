@@ -32,6 +32,7 @@ class ChatViewAppBar extends StatelessWidget {
   const ChatViewAppBar({
     Key? key,
     required this.chatTitle,
+    this.onTitleTap,
     this.backGroundColor,
     this.userStatus,
     this.profilePicture,
@@ -50,6 +51,9 @@ class ChatViewAppBar extends StatelessWidget {
     this.imageType = ImageType.network,
     this.networkImageProgressIndicatorBuilder,
   }) : super(key: key);
+
+  /// Provides callback when user tap on title.
+  final VoidCallBack? onTitleTap;
 
   /// Allow user to change colour of appbar.
   final Color? backGroundColor;
@@ -131,41 +135,44 @@ class ChatViewAppBar extends StatelessWidget {
                     ),
                   ),
             Expanded(
-              child: Row(
-                children: [
-                  if (profilePicture != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ProfileImageWidget(
-                        imageUrl: profilePicture,
-                        defaultAvatarImage: defaultAvatarImage,
-                        assetImageErrorBuilder: assetImageErrorBuilder,
-                        networkImageErrorBuilder: networkImageErrorBuilder,
-                        imageType: imageType,
-                        networkImageProgressIndicatorBuilder:
-                            networkImageProgressIndicatorBuilder,
-                      ),
-                    ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        chatTitle,
-                        style: chatTitleTextStyle ??
-                            const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.25,
-                            ),
-                      ),
-                      if (userStatus != null)
-                        Text(
-                          userStatus!,
-                          style: userStatusTextStyle,
+              child: InkWell(
+                onTap: onTitleTap,
+                child: Row(
+                  children: [
+                    if (profilePicture != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ProfileImageWidget(
+                          imageUrl: profilePicture,
+                          defaultAvatarImage: defaultAvatarImage,
+                          assetImageErrorBuilder: assetImageErrorBuilder,
+                          networkImageErrorBuilder: networkImageErrorBuilder,
+                          imageType: imageType,
+                          networkImageProgressIndicatorBuilder:
+                              networkImageProgressIndicatorBuilder,
                         ),
-                    ],
-                  ),
-                ],
+                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          chatTitle,
+                          style: chatTitleTextStyle ??
+                              const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.25,
+                              ),
+                        ),
+                        if (userStatus != null)
+                          Text(
+                            userStatus!,
+                            style: userStatusTextStyle,
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             if (actions != null) ...actions!,

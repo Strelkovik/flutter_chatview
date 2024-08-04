@@ -24,6 +24,7 @@ import 'package:chatview/src/widgets/chat_view_inherited_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatview/src/extensions/extensions.dart';
+import 'package:voice_message_player/voice_message_player.dart';
 import '../utils/constants/constants.dart';
 import 'image_message_view.dart';
 import 'text_message_view.dart';
@@ -101,6 +102,7 @@ class MessageView extends StatefulWidget {
 class _MessageViewState extends State<MessageView>
     with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
+  VoiceController? voiceController;
 
   MessageConfiguration? get messageConfig => widget.messageConfig;
 
@@ -117,6 +119,7 @@ class _MessageViewState extends State<MessageView>
         upperBound: 0.1,
         lowerBound: 0.0,
       );
+
       if (widget.message.status != MessageStatus.read &&
           !widget.isMessageBySender) {
         widget.inComingChatBubbleConfig?.onMessageRead?.call(widget.message);

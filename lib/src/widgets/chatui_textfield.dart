@@ -346,6 +346,7 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
     } else {
       final path = await controller?.stop();
       isRecording.value = false;
+
       widget.onRecordingComplete(path);
     }
   }

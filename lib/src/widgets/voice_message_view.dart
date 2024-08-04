@@ -4,8 +4,9 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/models/voice_message_configuration.dart';
 import 'package:chatview/src/widgets/reaction_widget.dart';
-import 'package:flutter/foundation.dart';
+import 'package:chatview/src/widgets/read_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:voice_message_player/voice_message_player.dart';
 
 class VoiceMessageView extends StatefulWidget {
   const VoiceMessageView({
@@ -57,18 +58,28 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
 
   PlayerWaveStyle playerWaveStyle = const PlayerWaveStyle(scaleFactor: 70);
 
+  late VoiceController voiceController;
+
   @override
   void initState() {
     super.initState();
-    controller = PlayerController()
-      ..preparePlayer(
-        path: widget.message.message,
-        noOfSamples: widget.config?.playerWaveStyle
-                ?.getSamplesForWidth(widget.screenWidth * 0.5) ??
-            playerWaveStyle.getSamplesForWidth(widget.screenWidth * 0.5),
-      ).whenComplete(() => widget.onMaxDuration?.call(controller.maxDuration));
-    playerStateSubscription = controller.onPlayerStateChanged
-        .listen((state) => _playerState.value = state);
+    voiceController = VoiceController(
+      audioSrc: widget.message.message,
+      onComplete: () {
+        /// do something on complete
+      },
+      onPause: () {
+        /// do something on pause
+      },
+      onPlaying: () {
+        /// do something on playing
+      },
+      onError: (err) {
+        /// do somethin on error
+      },
+      maxDuration: const Duration(seconds: 60),
+      isFile: false,
+    );
   }
 
   @override
@@ -84,60 +95,25 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Container(
-          decoration: widget.config?.decoration ??
-              BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: widget.isMessageBySender
-                    ? widget.outgoingChatBubbleConfig?.color
-                    : widget.inComingChatBubbleConfig?.color,
+        VoiceMessagePlayer(
+          pauseIcon: widget.config?.pauseIcon ??
+              const Icon(
+                Icons.stop,
+                color: Colors.white,
               ),
-          padding: widget.config?.padding ??
-              const EdgeInsets.symmetric(horizontal: 8),
-          margin: widget.config?.margin ??
-              EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: widget.message.reaction.reactions.isNotEmpty ? 15 : 0,
+          playIcon: widget.config?.playIcon ??
+              const Icon(
+                Icons.play_arrow,
+                color: Colors.white,
               ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ValueListenableBuilder<PlayerState>(
-                builder: (context, state, child) {
-                  return IconButton(
-                    onPressed: _playOrPause,
-                    icon:
-                        state.isStopped || state.isPaused || state.isInitialised
-                            ? widget.config?.playIcon ??
-                                const Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                )
-                            : widget.config?.pauseIcon ??
-                                const Icon(
-                                  Icons.stop,
-                                  color: Colors.white,
-                                ),
-                  );
-                },
-                valueListenable: _playerState,
-              ),
-              AudioFileWaveforms(
-                size: Size(widget.screenWidth * 0.50, 60),
-                playerController: controller,
-                waveformType: WaveformType.fitWidth,
-                playerWaveStyle:
-                    widget.config?.playerWaveStyle ?? playerWaveStyle,
-                padding: widget.config?.waveformPadding ??
-                    const EdgeInsets.only(right: 10),
-                margin: widget.config?.waveformMargin,
-                animationCurve: widget.config?.animationCurve ?? Curves.easeIn,
-                animationDuration: widget.config?.animationDuration ??
-                    const Duration(milliseconds: 500),
-                enableSeekGesture: widget.config?.enableSeekGesture ?? true,
-              ),
-            ],
-          ),
+          backgroundColor: widget.isMessageBySender
+              ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
+              : widget.inComingChatBubbleConfig?.color ?? Colors.white,
+          activeSliderColor: widget.isMessageBySender
+              ? widget.inComingChatBubbleConfig?.color ?? Colors.white
+              : widget.outgoingChatBubbleConfig?.color ?? Colors.white,
+          // circlesColor: Colors.white,
+          controller: voiceController,
         ),
         if (widget.message.reaction.reactions.isNotEmpty)
           ReactionWidget(
@@ -145,22 +121,23 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
             reaction: widget.message.reaction,
             messageReactionConfig: widget.messageReactionConfig,
           ),
+        Positioned(
+          bottom: 5,
+          right: widget.isMessageBySender ? 15 : 0,
+          child: SizedBox(
+            width: 55,
+            height: 20,
+            child: ReadIndicator(
+              message: widget.message,
+              isMessageBySender: widget.isMessageBySender,
+              textStyle: TextStyle(
+                color: widget.isMessageBySender ? Colors.white : Colors.black,
+                fontSize: 10,
+              ),
+            ),
+          ),
+        )
       ],
     );
-  }
-
-  void _playOrPause() {
-    assert(
-      defaultTargetPlatform == TargetPlatform.iOS ||
-          defaultTargetPlatform == TargetPlatform.android,
-      "Voice messages are only supported with android and ios platform",
-    );
-    if (playerState.isInitialised ||
-        playerState.isPaused ||
-        playerState.isStopped) {
-      controller.startPlayer(finishMode: FinishMode.pause);
-    } else {
-      controller.pausePlayer();
-    }
   }
 }
