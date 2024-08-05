@@ -74,7 +74,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
 
   @override
   void dispose() {
-    voiceController.dispose();
+    // voiceController.dispose();
     super.dispose();
   }
 
