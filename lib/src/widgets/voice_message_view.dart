@@ -48,16 +48,6 @@ class VoiceMessageView extends StatefulWidget {
 }
 
 class _VoiceMessageViewState extends State<VoiceMessageView> {
-  late PlayerController controller;
-  late StreamSubscription<PlayerState> playerStateSubscription;
-
-  final ValueNotifier<PlayerState> _playerState =
-      ValueNotifier(PlayerState.stopped);
-
-  PlayerState get playerState => _playerState.value;
-
-  PlayerWaveStyle playerWaveStyle = const PlayerWaveStyle(scaleFactor: 70);
-
   late VoiceController voiceController;
 
   @override
@@ -84,9 +74,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
 
   @override
   void dispose() {
-    playerStateSubscription.cancel();
-    controller.dispose();
-    _playerState.dispose();
+    voiceController.dispose();
     super.dispose();
   }
 
