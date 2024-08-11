@@ -108,27 +108,30 @@ class Data {
     ),
     Message(
       id: '12',
-      message: "🤩🤩",
+      message: "🤩",
       createdAt: DateTime.now(),
       sentBy: '2',
       status: MessageStatus.read,
     ),
     Message(
       id: '13',
-      message:
-          "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
+      message: "🤩🤩",
       createdAt: DateTime.now(),
-      messageType: MessageType.voice,
-      sentBy: '1',
+      sentBy: '2',
       status: MessageStatus.read,
     ),
     Message(
       id: '14',
-      message:
-          "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
+      message: "🤩🤩🤩",
       createdAt: DateTime.now(),
-      messageType: MessageType.voice,
       sentBy: '2',
+      status: MessageStatus.read,
+    ),
+    Message(
+      id: '15',
+      message: "🤩🤩🤩🤩🤩",
+      createdAt: DateTime.now(),
+      sentBy: '1',
       status: MessageStatus.read,
     ),
   ];

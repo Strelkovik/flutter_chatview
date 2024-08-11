@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/models/voice_message_configuration.dart';
 import 'package:chatview/src/widgets/reaction_widget.dart';
@@ -85,15 +82,32 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
       children: [
         VoiceMessagePlayer(
           pauseIcon: widget.config?.pauseIcon ??
-              const Icon(
+              Icon(
                 Icons.stop,
-                color: Colors.white,
+                color: widget.isMessageBySender
+                    ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
+                    : Colors.white,
               ),
           playIcon: widget.config?.playIcon ??
-              const Icon(
+              Icon(
                 Icons.play_arrow,
-                color: Colors.white,
+                color: widget.isMessageBySender
+                    ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
+                    : Colors.white,
               ),
+          circlesColor: widget.isMessageBySender
+              ? Colors.white
+              : widget.outgoingChatBubbleConfig?.color ?? Colors.white,
+
+          circlesTextStyle: widget.isMessageBySender
+              ? widget.inComingChatBubbleConfig?.textStyle
+                      ?.copyWith(fontSize: 10) ??
+                  const TextStyle(color: Colors.white, fontSize: 10)
+              : widget.outgoingChatBubbleConfig?.textStyle
+                      ?.copyWith(fontSize: 10) ??
+                  const TextStyle(color: Colors.white, fontSize: 10),
+          playPauseButtonLoadingColor: widget.config?.itemColor ?? Colors.white,
+
           backgroundColor: widget.isMessageBySender
               ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
               : widget.inComingChatBubbleConfig?.color ?? Colors.white,

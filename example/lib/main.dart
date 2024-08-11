@@ -2,6 +2,7 @@ import 'package:chatview/chatview.dart';
 import 'package:example/data.dart';
 import 'package:example/models/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 void main() {
   runApp(const Example());
@@ -263,6 +264,9 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           imageMessageConfig: ImageMessageConfiguration(
+            onTap: (imageUrl) {
+              _showImageDialog(context, imageUrl);
+            },
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             shareIconConfig: ShareIconConfiguration(
               defaultIconBackgroundColor: theme.shareIconBackgroundColor,
@@ -345,5 +349,27 @@ class _ChatScreenState extends State<ChatScreen> {
         isDarkTheme = true;
       }
     });
+  }
+
+  void _showImageDialog(BuildContext context, String imageUrl) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onVerticalDragEnd: (details) {
+            Navigator.pop(context);
+          },
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: PhotoView(
+              imageProvider: NetworkImage(imageUrl),
+              loadingBuilder: (context, progress) =>
+                  const Center(child: CircularProgressIndicator()),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

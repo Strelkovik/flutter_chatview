@@ -33,6 +33,7 @@ class ChatViewAppBar extends StatelessWidget {
     Key? key,
     required this.chatTitle,
     this.onTitleTap,
+    this.bottomWidget,
     this.backGroundColor,
     this.userStatus,
     this.profilePicture,
@@ -54,6 +55,9 @@ class ChatViewAppBar extends StatelessWidget {
 
   /// Provides callback when user tap on title.
   final VoidCallBack? onTitleTap;
+
+  /// Bottom widget of appbar.
+  final Widget? bottomWidget;
 
   /// Allow user to change colour of appbar.
   final Color? backGroundColor;
@@ -118,64 +122,69 @@ class ChatViewAppBar extends StatelessWidget {
         padding: padding ??
             EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
-              bottom: 4,
             ),
         color: backGroundColor ?? Colors.white,
-        child: Row(
+        child: Column(
           children: [
-            if (showLeading)
-              leading ??
-                  IconButton(
-                    onPressed: onBackPress ?? () => Navigator.pop(context),
-                    icon: Icon(
-                      (!kIsWeb && Platform.isIOS)
-                          ? Icons.arrow_back_ios
-                          : Icons.arrow_back,
-                      color: backArrowColor,
-                    ),
-                  ),
-            Expanded(
-              child: InkWell(
-                onTap: onTitleTap,
-                child: Row(
-                  children: [
-                    if (profilePicture != null)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: ProfileImageWidget(
-                          imageUrl: profilePicture,
-                          defaultAvatarImage: defaultAvatarImage,
-                          assetImageErrorBuilder: assetImageErrorBuilder,
-                          networkImageErrorBuilder: networkImageErrorBuilder,
-                          imageType: imageType,
-                          networkImageProgressIndicatorBuilder:
-                              networkImageProgressIndicatorBuilder,
+            Row(
+              children: [
+                if (showLeading)
+                  leading ??
+                      IconButton(
+                        onPressed: onBackPress ?? () => Navigator.pop(context),
+                        icon: Icon(
+                          (!kIsWeb && Platform.isIOS)
+                              ? Icons.arrow_back_ios
+                              : Icons.arrow_back,
+                          color: backArrowColor,
                         ),
                       ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                Expanded(
+                  child: InkWell(
+                    onTap: onTitleTap,
+                    child: Row(
                       children: [
-                        Text(
-                          chatTitle,
-                          style: chatTitleTextStyle ??
-                              const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.25,
-                              ),
-                        ),
-                        if (userStatus != null)
-                          Text(
-                            userStatus!,
-                            style: userStatusTextStyle,
+                        if (profilePicture != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: ProfileImageWidget(
+                              imageUrl: profilePicture,
+                              defaultAvatarImage: defaultAvatarImage,
+                              assetImageErrorBuilder: assetImageErrorBuilder,
+                              networkImageErrorBuilder:
+                                  networkImageErrorBuilder,
+                              imageType: imageType,
+                              networkImageProgressIndicatorBuilder:
+                                  networkImageProgressIndicatorBuilder,
+                            ),
                           ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              chatTitle,
+                              style: chatTitleTextStyle ??
+                                  const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.25,
+                                  ),
+                            ),
+                            if (userStatus != null)
+                              Text(
+                                userStatus!,
+                                style: userStatusTextStyle,
+                              ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                if (actions != null) ...actions!,
+              ],
             ),
-            if (actions != null) ...actions!,
+            if (bottomWidget != null) bottomWidget!
           ],
         ),
       ),

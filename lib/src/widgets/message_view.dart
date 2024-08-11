@@ -21,6 +21,7 @@
  */
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/widgets/chat_view_inherited_widget.dart';
+import 'package:chatview/src/widgets/read_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatview/src/extensions/extensions.dart';
@@ -132,6 +133,18 @@ class _MessageViewState extends State<MessageView>
     }
   }
 
+  double calculateFontSize(String message) {
+    if (message.emojiCount == 1) {
+      return 100; // Размер для одного символа
+    } else if (message.emojiCount >= 2 && message.emojiCount <= 3) {
+      return 50; // Размер для двух символов
+    } else if (message.emojiCount >= 4 && message.emojiCount <= 5) {
+      return 33; // Размер для трех и более символов
+    } else {
+      return 20;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -179,17 +192,13 @@ class _MessageViewState extends State<MessageView>
                               4,
                               leftPadding2,
                               widget.message.reaction.reactions.isNotEmpty
-                                  ? 14
-                                  : 0,
+                                  ? 20
+                                  : 20,
                             ),
-                        child: Transform.scale(
-                          scale: widget.shouldHighlight
-                              ? widget.highlightScale
-                              : 1.0,
-                          child: Text(
-                            message,
-                            style: emojiMessageConfiguration?.textStyle ??
-                                const TextStyle(fontSize: 30),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                            fontSize: calculateFontSize(message).toDouble(),
                           ),
                         ),
                       ),
@@ -200,6 +209,14 @@ class _MessageViewState extends State<MessageView>
                               messageConfig?.messageReactionConfig,
                           isMessageBySender: widget.isMessageBySender,
                         ),
+                      Positioned(
+                        bottom: 0,
+                        right: 5,
+                        child: ReadIndicator(
+                          message: widget.message,
+                          isMessageBySender: widget.isMessageBySender,
+                        ),
+                      )
                     ],
                   );
                 } else if (widget.message.messageType.isImage) {

@@ -1,4 +1,5 @@
 import 'package:chatview/chatview.dart';
+import 'package:chatview/src/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +19,8 @@ class ReadIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: message.messageType == MessageType.image
+        color: message.messageType == MessageType.image ||
+                message.message.isAllEmoji
             ? Colors.black.withOpacity(0.6)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(30),

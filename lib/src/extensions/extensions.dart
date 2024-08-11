@@ -69,6 +69,10 @@ extension ValidateString on String {
     return true;
   }
 
+  int get emojiCount {
+    return EmojiParser().parseEmojis(this).length;
+  }
+
   bool get isUrl => Uri.tryParse(this)?.isAbsolute ?? false;
 
   Widget getUserProfilePicture({

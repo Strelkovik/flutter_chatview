@@ -25,6 +25,7 @@ dependencies:
   # For formatting time locale in message receipts
   timeago: ^3.6.1
   cached_network_image: ^3.3.1
+  photo_view: ^0.15.0
 
 dev_dependencies:
   flutter_test:

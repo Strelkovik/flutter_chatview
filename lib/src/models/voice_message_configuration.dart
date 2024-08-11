@@ -6,6 +6,7 @@ class VoiceMessageConfiguration {
   const VoiceMessageConfiguration({
     this.playerWaveStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.itemColor,
     this.margin,
     this.decoration,
     this.animationCurve,
@@ -22,6 +23,9 @@ class VoiceMessageConfiguration {
 
   /// Applies padding to message bubble.
   final EdgeInsets padding;
+
+  /// Applies color to voice buttons.
+  final Color? itemColor;
 
   /// Applies margin to message bubble.
   final EdgeInsets? margin;
