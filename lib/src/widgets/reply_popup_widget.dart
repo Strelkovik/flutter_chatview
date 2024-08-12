@@ -104,16 +104,16 @@ class ReplyPopupWidget extends StatelessWidget {
           //       ),
           //     ),
           //   ),
-          Expanded(
-            child: InkWell(
-              onTap: onMoreTap,
-              child: Text(
-                PackageStrings.more,
-                textAlign: TextAlign.center,
-                style: textStyle,
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: InkWell(
+          //     onTap: onMoreTap,
+          //     child: Text(
+          //       PackageStrings.more,
+          //       textAlign: TextAlign.center,
+          //       style: textStyle,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
