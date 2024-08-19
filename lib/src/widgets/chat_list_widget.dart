@@ -302,16 +302,18 @@ class _ChatListWidgetState extends State<ChatListWidget>
                                 child: const Text('Отмена'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
+                                  _onChatListTap();
                                 },
                               ),
                               TextButton(
-                                child: Text('Удалить',
-                                    style: TextStyle(color: Colors.red)),
+                                child: const Text('Удалить',
+                                    style: const TextStyle(color: Colors.red)),
                                 onPressed: () {
                                   replyPopup?.onUnsendTap?.call(
                                     message,
                                   );
                                   Navigator.of(context).pop();
+                                  _onChatListTap();
                                 },
                               ),
                             ],

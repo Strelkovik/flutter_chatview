@@ -261,6 +261,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
   void _onImageSelected(String imagePath, String error) {
     debugPrint('Call in Send Message Widget');
     if (imagePath.isNotEmpty) {
+      print(imagePath);
       widget.onSendTap.call(imagePath, replyMessage, MessageType.image);
       _assignRepliedMessage();
     }
