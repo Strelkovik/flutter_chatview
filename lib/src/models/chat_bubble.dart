@@ -52,6 +52,12 @@ class ChatBubble {
   /// time only
   final Function(Message message)? onMessageRead;
 
+  /// Used for giving color of read indicator
+  final Color? readIndicatorColor;
+
+  /// Used for giving color of filled read indicator
+  final Color? filledReadIndicatorColor;
+
   const ChatBubble({
     this.color,
     this.borderRadius,
@@ -62,5 +68,7 @@ class ChatBubble {
     this.senderNameTextStyle,
     this.receiptsWidgetConfig,
     this.onMessageRead,
+    this.readIndicatorColor,
+    this.filledReadIndicatorColor,
   });
 }

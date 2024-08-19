@@ -215,6 +215,10 @@ class _MessageViewState extends State<MessageView>
                         child: ReadIndicator(
                           message: widget.message,
                           isMessageBySender: widget.isMessageBySender,
+                          indicatorColor: widget
+                              .outgoingChatBubbleConfig?.readIndicatorColor,
+                          filledIndicatorColor: widget.outgoingChatBubbleConfig
+                              ?.filledReadIndicatorColor,
                         ),
                       )
                     ],
@@ -227,6 +231,7 @@ class _MessageViewState extends State<MessageView>
                     messageReactionConfig: messageConfig?.messageReactionConfig,
                     highlightImage: widget.shouldHighlight,
                     highlightScale: widget.highlightScale,
+                    outgoingChatBubbleConfig: widget.outgoingChatBubbleConfig,
                   );
                 } else if (widget.message.messageType.isText) {
                   return TextMessageView(

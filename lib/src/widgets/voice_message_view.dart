@@ -1,5 +1,4 @@
 import 'package:chatview/chatview.dart';
-import 'package:chatview/src/models/voice_message_configuration.dart';
 import 'package:chatview/src/widgets/reaction_widget.dart';
 import 'package:chatview/src/widgets/read_indicator.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +45,7 @@ class VoiceMessageView extends StatefulWidget {
 
 class _VoiceMessageViewState extends State<VoiceMessageView> {
   late VoiceController voiceController;
+  late Color mainColor;
 
   @override
   void initState() {
@@ -65,8 +65,12 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
         /// do somethin on error
       },
       maxDuration: const Duration(seconds: 60),
+      noiseCount: 43,
       isFile: false,
     );
+    mainColor = widget.config?.decoration?.color ??
+        widget.outgoingChatBubbleConfig?.color ??
+        Colors.white;
   }
 
   @override
@@ -81,23 +85,18 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
       clipBehavior: Clip.none,
       children: [
         VoiceMessagePlayer(
+          innerPadding: 8,
           pauseIcon: widget.config?.pauseIcon ??
               Icon(
                 Icons.stop,
-                color: widget.isMessageBySender
-                    ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
-                    : Colors.white,
+                color: widget.isMessageBySender ? mainColor : Colors.white,
               ),
           playIcon: widget.config?.playIcon ??
               Icon(
                 Icons.play_arrow,
-                color: widget.isMessageBySender
-                    ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
-                    : Colors.white,
+                color: widget.isMessageBySender ? mainColor : Colors.white,
               ),
-          circlesColor: widget.isMessageBySender
-              ? Colors.white
-              : widget.outgoingChatBubbleConfig?.color ?? Colors.white,
+          circlesColor: widget.isMessageBySender ? Colors.white : mainColor,
 
           circlesTextStyle: widget.isMessageBySender
               ? widget.inComingChatBubbleConfig?.textStyle
@@ -109,11 +108,11 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
           playPauseButtonLoadingColor: widget.config?.itemColor ?? Colors.white,
 
           backgroundColor: widget.isMessageBySender
-              ? widget.outgoingChatBubbleConfig?.color ?? Colors.white
+              ? mainColor
               : widget.inComingChatBubbleConfig?.color ?? Colors.white,
           activeSliderColor: widget.isMessageBySender
               ? widget.inComingChatBubbleConfig?.color ?? Colors.white
-              : widget.outgoingChatBubbleConfig?.color ?? Colors.white,
+              : mainColor,
           // circlesColor: Colors.white,
           controller: voiceController,
         ),
@@ -136,6 +135,10 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
                 color: widget.isMessageBySender ? Colors.white : Colors.black,
                 fontSize: 10,
               ),
+              indicatorColor:
+                  widget.outgoingChatBubbleConfig?.readIndicatorColor,
+              filledIndicatorColor:
+                  widget.outgoingChatBubbleConfig?.filledReadIndicatorColor,
             ),
           ),
         )

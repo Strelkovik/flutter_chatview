@@ -9,11 +9,15 @@ class ReadIndicator extends StatelessWidget {
     required this.message,
     required this.isMessageBySender,
     this.textStyle,
+    this.indicatorColor,
+    this.filledIndicatorColor,
   });
 
   final Message message;
   final bool isMessageBySender;
   final TextStyle? textStyle;
+  final Color? indicatorColor;
+  final Color? filledIndicatorColor;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +50,8 @@ class ReadIndicator extends StatelessWidget {
                       ? Icons.done_all
                       : Icons.done,
                   color: message.status == MessageStatus.read
-                      ? Colors.greenAccent
-                      : Colors.white,
+                      ? filledIndicatorColor ?? Colors.greenAccent
+                      : indicatorColor ?? Colors.white,
                   size: 15,
                 ),
               ),

@@ -83,6 +83,7 @@ class ChatController {
 
   /// Represents message stream of chat
   StreamController<List<Message>> messageStreamController = StreamController();
+  final chatUpdateStreamController = StreamController<bool>.broadcast();
 
   /// Used to dispose ValueNotifiers and Streams.
   void dispose() {
@@ -90,6 +91,7 @@ class ChatController {
     _replySuggestion.dispose();
     scrollController.dispose();
     messageStreamController.close();
+    chatUpdateStreamController.close();
   }
 
   /// Used to add message in message list.

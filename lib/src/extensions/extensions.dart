@@ -38,7 +38,7 @@ extension TimeDifference on DateTime {
     } else if (differenceInDays <= 1 && differenceInDays >= -1) {
       return PackageStrings.yesterday;
     } else {
-      final DateFormat formatter = DateFormat(chatSeparatorDatePattern);
+      final DateFormat formatter = DateFormat(chatSeparatorDatePattern, 'ru');
       return formatter.format(this);
     }
   }
@@ -147,4 +147,16 @@ extension BuildContextExtension on BuildContext {
 
   ReplySuggestionsConfig? get suggestionsConfig =>
       mounted ? SuggestionsConfigIW.of(this)?.suggestionsConfig : null;
+}
+
+extension PriceFormat on int {
+  String priceFormat() {
+    final million = this ~/ 1000000;
+    if (million > 0) {
+      final mlnFormatter = NumberFormat("###.0");
+      return '${mlnFormatter.format(this / 1000000)} млн ₽';
+    }
+    final formatter = NumberFormat('#,###');
+    return '${formatter.format(this).replaceAll(',', ' ')} ₽';
+  }
 }

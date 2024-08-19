@@ -107,6 +107,7 @@ class AppTheme {
     this.waveformBackgroundColor,
     this.waveColor,
     this.replyMicIconColor,
+    
   });
 }
 

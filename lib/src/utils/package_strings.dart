@@ -23,7 +23,7 @@ class PackageStrings {
   static const String today = "Сегодня";
   static const String yesterday = "Вчера";
   static const String repliedToYou = "Replied to you";
-  static const String repliedBy = "Replied by";
+  static const String repliedBy = "";
   static const String more = "More";
   static const String unsend = "Удалить";
   static const String reply = "Переслать";

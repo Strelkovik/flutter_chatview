@@ -19,7 +19,7 @@ dependencies:
   url_launcher: ^6.3.0
   emoji_picker_flutter: ^2.1.1
   any_link_preview: ^3.0.1
-  image_picker: '>=0.8.9 <2.0.0'
+  image_picker: ^1.1.2
   audio_waveforms: ^1.0.5
   voice_message_player: ^1.1.2
   # For formatting time locale in message receipts

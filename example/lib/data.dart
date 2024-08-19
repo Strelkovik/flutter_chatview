@@ -7,6 +7,13 @@ class Data {
     Message(
       id: '1',
       message: "Hi!",
+      createdAt: DateTime.now().subtract(const Duration(days: 60)),
+      sentBy: '1', // userId of who sends the message
+      status: MessageStatus.read,
+    ),
+    Message(
+      id: '1',
+      message: "Hi!",
       createdAt: DateTime.now(),
       sentBy: '1', // userId of who sends the message
       status: MessageStatus.read,
@@ -129,9 +136,11 @@ class Data {
     ),
     Message(
       id: '15',
-      message: "🤩🤩🤩🤩🤩",
+      message:
+          "https://storage.yandexcloud.net/kerla.nit.studio/serverpod/chat/25/2024-08-18/18-08-24-04-40-264746354603680574377.m4a?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=YCAJE5HNgyOIByhXuUwjSxefB%2F20240818%2Fru-central1%2Fs3%2Faws4_request&X-Amz-Date=20240818T144513Z&X-Amz-Expires=3600&X-Amz-Signature=418D873FA12BA4F56C4D8A5A855B7CF82DF4254D81CE59D755A5126649D0063D&X-Amz-SignedHeaders=host",
       createdAt: DateTime.now(),
       sentBy: '1',
+      messageType: MessageType.voice,
       status: MessageStatus.read,
     ),
   ];

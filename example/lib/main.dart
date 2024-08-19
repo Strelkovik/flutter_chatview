@@ -1,7 +1,9 @@
 import 'package:chatview/chatview.dart';
 import 'package:example/data.dart';
 import 'package:example/models/theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:photo_view/photo_view.dart';
 
 void main() {
@@ -14,6 +16,15 @@ class Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: const Locale('ru', 'RU'),
+      supportedLocales: const [
+        Locale('ru', 'RU'),
+      ],
       title: 'Flutter Chat UI Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -238,6 +249,10 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: theme.reactionPopupColor,
         ),
         messageConfig: MessageConfiguration(
+          voiceMessageConfig: VoiceMessageConfiguration(
+              decoration: BoxDecoration(
+            color: Colors.blueAccent,
+          )),
           messageReactionConfig: MessageReactionConfiguration(
             backgroundColor: theme.messageReactionBackGroundColor,
             borderColor: theme.messageReactionBackGroundColor,
@@ -265,7 +280,25 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           imageMessageConfig: ImageMessageConfiguration(
             onTap: (imageUrl) {
-              _showImageDialog(context, imageUrl);
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onVerticalDragEnd: (details) {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: PhotoView(
+                        imageProvider: NetworkImage(imageUrl),
+                        loadingBuilder: (context, progress) =>
+                            const Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                  );
+                },
+              );
             },
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             shareIconConfig: ShareIconConfiguration(
@@ -330,6 +363,7 @@ class _ChatScreenState extends State<ChatScreen> {
         messageType: messageType,
       ),
     );
+    _chatController.chatUpdateStreamController.add(true);
     Future.delayed(const Duration(milliseconds: 300), () {
       _chatController.initialMessageList.last.setStatus =
           MessageStatus.undelivered;

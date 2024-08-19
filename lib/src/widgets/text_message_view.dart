@@ -97,6 +97,7 @@ class TextMessageView extends StatelessWidget {
                 )
               : Row(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Flexible(
                       child: Text(
@@ -114,6 +115,10 @@ class TextMessageView extends StatelessWidget {
                         message: message,
                         isMessageBySender: isMessageBySender,
                         textStyle: _textStyle,
+                        indicatorColor:
+                            outgoingChatBubbleConfig?.readIndicatorColor,
+                        filledIndicatorColor:
+                            outgoingChatBubbleConfig?.filledReadIndicatorColor,
                       ),
                     ),
                   ],

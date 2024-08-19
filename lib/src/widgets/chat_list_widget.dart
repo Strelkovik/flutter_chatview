@@ -116,6 +116,8 @@ class _ChatListWidgetState extends State<ChatListWidget>
     with SingleTickerProviderStateMixin {
   final ValueNotifier<bool> _isNextPageLoading = ValueNotifier<bool>(false);
   ValueNotifier<bool> showPopUp = ValueNotifier(false);
+  ValueNotifier<bool> updateChatList = ValueNotifier(false);
+
   final GlobalKey<ReactionPopupState> _reactionPopupKey = GlobalKey();
 
   ChatController get chatController => widget.chatController;
@@ -155,6 +157,9 @@ class _ChatListWidgetState extends State<ChatListWidget>
     if (!chatController.messageStreamController.isClosed) {
       chatController.messageStreamController.sink.add(messageList);
     }
+    chatController.chatUpdateStreamController.stream.listen((upd) {
+      updateChatList.value = !updateChatList.value;
+    });
     if (messageList.isNotEmpty) chatController.scrollToLastMessage();
   }
 
@@ -181,56 +186,65 @@ class _ChatListWidgetState extends State<ChatListWidget>
         ),
         Expanded(
           child: ValueListenableBuilder<bool>(
-            valueListenable: showPopUp,
-            builder: (_, showPopupValue, child) {
-              return Stack(
-                children: [
-                  ChatGroupedListWidget(
-                    showPopUp: showPopupValue,
-                    scrollController: scrollController,
-                    isEnableSwipeToSeeTime:
-                        featureActiveConfig?.enableSwipeToSeeTime ?? true,
-                    chatBackgroundConfig: widget.chatBackgroundConfig,
-                    assignReplyMessage: widget.assignReplyMessage,
-                    replyMessage: widget.replyMessage,
-                    swipeToReplyConfig: widget.swipeToReplyConfig,
-                    repliedMessageConfig: widget.repliedMessageConfig,
-                    profileCircleConfig: widget.profileCircleConfig,
-                    messageConfig: widget.messageConfig,
-                    chatBubbleConfig: widget.chatBubbleConfig,
-                    typeIndicatorConfig: widget.typeIndicatorConfig,
-                    onChatBubbleLongPress: (yCoordinate, xCoordinate, message) {
-                      if (featureActiveConfig?.enableReactionPopup ?? false) {
-                        _reactionPopupKey.currentState?.refreshWidget(
-                          message: message,
-                          xCoordinate: xCoordinate,
-                          yCoordinate: yCoordinate < 0
-                              ? -(yCoordinate) - 5
-                              : yCoordinate,
-                        );
-                        showPopUp.value = true;
-                      }
-                      if (featureActiveConfig?.enableReplySnackBar ?? false) {
-                        _showReplyPopup(
-                          message: message,
-                          sentByCurrentUser: message.sentBy == currentUser?.id,
-                        );
-                      }
-                    },
-                    onChatListTap: _onChatListTap,
-                  ),
-                  if (featureActiveConfig?.enableReactionPopup ?? false)
-                    ReactionPopup(
-                      key: _reactionPopupKey,
-                      reactionPopupConfig: widget.reactionPopupConfig,
-                      onTap: _onChatListTap,
-                      showPopUp: showPopupValue,
-                      emojiPickerSheetConfig: widget.emojiPickerSheetConfig,
-                    ),
-                ],
-              );
-            },
-          ),
+              valueListenable: updateChatList,
+              builder: (_, updateChatList, child) {
+                return ValueListenableBuilder<bool>(
+                  valueListenable: showPopUp,
+                  builder: (_, showPopupValue, child) {
+                    return Stack(
+                      children: [
+                        ChatGroupedListWidget(
+                          showPopUp: showPopupValue,
+                          scrollController: scrollController,
+                          isEnableSwipeToSeeTime:
+                              featureActiveConfig?.enableSwipeToSeeTime ?? true,
+                          chatBackgroundConfig: widget.chatBackgroundConfig,
+                          assignReplyMessage: widget.assignReplyMessage,
+                          replyMessage: widget.replyMessage,
+                          swipeToReplyConfig: widget.swipeToReplyConfig,
+                          repliedMessageConfig: widget.repliedMessageConfig,
+                          profileCircleConfig: widget.profileCircleConfig,
+                          messageConfig: widget.messageConfig,
+                          chatBubbleConfig: widget.chatBubbleConfig,
+                          typeIndicatorConfig: widget.typeIndicatorConfig,
+                          onChatBubbleLongPress:
+                              (yCoordinate, xCoordinate, message) {
+                            if (featureActiveConfig?.enableReactionPopup ??
+                                false) {
+                              _reactionPopupKey.currentState?.refreshWidget(
+                                message: message,
+                                xCoordinate: xCoordinate,
+                                yCoordinate: yCoordinate < 0
+                                    ? -(yCoordinate) - 5
+                                    : yCoordinate,
+                              );
+                              showPopUp.value = true;
+                            }
+                            if (featureActiveConfig?.enableReplySnackBar ??
+                                false) {
+                              _showReplyPopup(
+                                message: message,
+                                sentByCurrentUser:
+                                    message.sentBy == currentUser?.id,
+                              );
+                            }
+                          },
+                          onChatListTap: _onChatListTap,
+                        ),
+                        if (featureActiveConfig?.enableReactionPopup ?? false)
+                          ReactionPopup(
+                            key: _reactionPopupKey,
+                            reactionPopupConfig: widget.reactionPopupConfig,
+                            onTap: _onChatListTap,
+                            showPopUp: showPopupValue,
+                            emojiPickerSheetConfig:
+                                widget.emojiPickerSheetConfig,
+                          ),
+                      ],
+                    );
+                  },
+                );
+              }),
         ),
       ],
     );
@@ -276,10 +290,35 @@ class _ChatListWidgetState extends State<ChatListWidget>
                       );
                     },
                     onUnsendTap: () {
-                      _onChatListTap();
-                      replyPopup?.onUnsendTap?.call(
-                        message,
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            content: const Text(
+                                'Вы действительно хотите удалить это сообщение?'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Отмена'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text('Удалить',
+                                    style: TextStyle(color: Colors.red)),
+                                onPressed: () {
+                                  replyPopup?.onUnsendTap?.call(
+                                    message,
+                                  );
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
+                      // _onChatListTap();
                     },
                     onReplyTap: () {
                       widget.assignReplyMessage(message);

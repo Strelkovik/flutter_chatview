@@ -38,6 +38,7 @@ class ImageMessageView extends StatelessWidget {
     required this.isMessageBySender,
     this.imageMessageConfig,
     this.messageReactionConfig,
+    this.outgoingChatBubbleConfig,
     this.highlightImage = false,
     this.highlightScale = 1.2,
   }) : super(key: key);
@@ -59,6 +60,9 @@ class ImageMessageView extends StatelessWidget {
 
   /// Provides scale of highlighted image when user taps on replied image.
   final double highlightScale;
+
+  /// Provides configuration of chat bubble appearance from current user of chat.
+  final ChatBubble? outgoingChatBubbleConfig;
 
   String get imageUrl => message.message;
 
@@ -147,6 +151,9 @@ class ImageMessageView extends StatelessWidget {
               child: ReadIndicator(
                 message: message,
                 isMessageBySender: isMessageBySender,
+                indicatorColor: outgoingChatBubbleConfig?.readIndicatorColor,
+                filledIndicatorColor:
+                    outgoingChatBubbleConfig?.filledReadIndicatorColor,
               ),
             ),
           ],
