@@ -65,7 +65,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
         /// do somethin on error
       },
       maxDuration: const Duration(seconds: 60),
-      noiseCount: 43,
+      noiseCount: 50,
       isFile: false,
     );
     mainColor = widget.config?.decoration?.color ??
@@ -85,7 +85,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
       clipBehavior: Clip.none,
       children: [
         VoiceMessagePlayer(
-          innerPadding: 8,
+          innerPadding: 6,
           pauseIcon: widget.config?.pauseIcon ??
               Icon(
                 Icons.stop,
