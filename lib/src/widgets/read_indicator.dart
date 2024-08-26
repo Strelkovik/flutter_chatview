@@ -8,6 +8,7 @@ class ReadIndicator extends StatelessWidget {
     super.key,
     required this.message,
     required this.isMessageBySender,
+    this.padding = const EdgeInsets.all(0),
     this.textStyle,
     this.indicatorColor,
     this.filledIndicatorColor,
@@ -18,6 +19,8 @@ class ReadIndicator extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? indicatorColor;
   final Color? filledIndicatorColor;
+
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,9 @@ class ReadIndicator extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(3),
+        padding: padding,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               DateFormat.Hm().format(message.createdAt),

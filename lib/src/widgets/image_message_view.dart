@@ -148,12 +148,16 @@ class ImageMessageView extends StatelessWidget {
             Positioned(
               right: 16,
               bottom: 16,
-              child: ReadIndicator(
-                message: message,
-                isMessageBySender: isMessageBySender,
-                indicatorColor: outgoingChatBubbleConfig?.readIndicatorColor,
-                filledIndicatorColor:
-                    outgoingChatBubbleConfig?.filledReadIndicatorColor,
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: ReadIndicator(
+                  padding: const EdgeInsets.all(3),
+                  message: message,
+                  isMessageBySender: isMessageBySender,
+                  indicatorColor: outgoingChatBubbleConfig?.readIndicatorColor,
+                  filledIndicatorColor:
+                      outgoingChatBubbleConfig?.filledReadIndicatorColor,
+                ),
               ),
             ),
           ],

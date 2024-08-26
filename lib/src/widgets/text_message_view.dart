@@ -95,22 +95,20 @@ class TextMessageView extends StatelessWidget {
                   linkPreviewConfig: _linkPreviewConfig,
                   url: textMessage,
                 )
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
+              : Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Flexible(
-                      child: Text(
-                        textMessage,
-                        style: _textStyle ??
-                            textTheme.bodyMedium!.copyWith(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                      ),
+                    Text(
+                      textMessage,
+                      style: _textStyle ??
+                          textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
+                    Align(
+                      widthFactor: 1,
+                      alignment: Alignment.centerRight,
                       child: ReadIndicator(
                         message: message,
                         isMessageBySender: isMessageBySender,

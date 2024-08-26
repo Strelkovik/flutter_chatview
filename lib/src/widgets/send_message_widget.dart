@@ -24,8 +24,9 @@ import 'dart:io' if (kIsWeb) 'dart:html';
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/utils/package_strings.dart';
-import 'package:chatview/src/widgets/chatui_textfield.dart';
 import 'package:chatview/src/widgets/reply_message_view.dart';
+import 'package:chatview/text_field/audio_encoder_type.dart';
+import 'package:chatview/text_field/screen/voice_message_recorder.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
@@ -153,7 +154,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                                       ),
                                     ),
                                     margin: const EdgeInsets.only(
-                                      bottom: 17,
+                                      bottom: 0,
                                       right: 0.4,
                                       left: 0.4,
                                     ),
@@ -161,7 +162,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                                       leftPadding,
                                       leftPadding,
                                       leftPadding,
-                                      30,
+                                      54,
                                     ),
                                     child: Container(
                                       margin: const EdgeInsets.only(bottom: 2),
@@ -234,14 +235,30 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                           },
                           valueListenable: _replyMessage,
                         ),
-                        ChatUITextField(
+                        VoiceMessageRecorder(
+                          encode: AudioEncoderType.AMR_WB,
+                          functionSendVoice: (File soundFile, String time) {
+                            _onRecordingComplete(soundFile.path);
+                          },
+                          functionRecorderStatus: (bool) {},
+                          functionSendTextMessage: (String text) {
+                            _onPressed();
+                          },
+                          functionDataCameraReceived: (String path) {
+                            _onImageSelected(path, '');
+                          },
+                          textFieldController: _textEditingController,
                           focusNode: _focusNode,
-                          textEditingController: _textEditingController,
-                          onPressed: _onPressed,
-                          sendMessageConfig: widget.sendMessageConfig,
-                          onRecordingComplete: _onRecordingComplete,
-                          onImageSelected: _onImageSelected,
-                        )
+                          sendMessageConfig: widget.sendMessageConfig!,
+                        ),
+                        // ChatUITextField(
+                        //   focusNode: _focusNode,
+                        //   textEditingController: _textEditingController,
+                        //   onPressed: _onPressed,
+                        //   sendMessageConfig: widget.sendMessageConfig,
+                        //   onRecordingComplete: _onRecordingComplete,
+                        //   onImageSelected: _onImageSelected,
+                        // )
                       ],
                     ),
                   ),

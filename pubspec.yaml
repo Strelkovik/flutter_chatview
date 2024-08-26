@@ -17,7 +17,6 @@ dependencies:
     sdk: flutter
   intl: ^0.19.0
   url_launcher: ^6.3.0
-  emoji_picker_flutter: ^2.1.1
   any_link_preview: ^3.0.1
   image_picker: ^1.1.2
   audio_waveforms: ^1.0.5
@@ -26,6 +25,28 @@ dependencies:
   timeago: ^3.6.1
   cached_network_image: ^3.3.1
   photo_view: ^0.15.0
+  
+  plugin_platform_interface: ^2.0.2
+  cupertino_icons: ^1.0.6
+  # uuid: ^3.0.7
+  permission_handler: ^11.0.0
+  animated_text_kit: ^4.2.2
+  path_provider: ^2.1.1
+  provider: ^6.1.1
+  record: ^4.4.4
+  audioplayers: ^5.2.1
+  emoji_picker_flutter: ^2.2.0
+  camera: ^0.10.0
+  video_player: ^2.8.7
+  file_picker: ^8.0.0
+  flutter_native_contact_picker: ^0.0.6
+  json_annotation: ^4.8.1
+  flutter_multi_formatter: ^2.12.4
+  country_flags: ^2.2.0
+  flutter_cache_manager: ^3.3.1
+  just_audio: ^0.9.37
+  syncfusion_flutter_sliders: ^25.1.41
+
 
 dev_dependencies:
   flutter_test:

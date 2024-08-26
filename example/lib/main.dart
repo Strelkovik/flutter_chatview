@@ -45,7 +45,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  AppTheme theme = LightTheme();
+  LightTheme theme = LightTheme();
   bool isDarkTheme = false;
   final _chatController = ChatController(
     initialMessageList: Data.messageList,
@@ -179,6 +179,8 @@ class _ChatScreenState extends State<ChatScreen> {
             cameraIconColor: theme.cameraIconColor,
             galleryIconColor: theme.galleryIconColor,
           ),
+          imagePickerConfiguration:
+              const ImagePickerConfiguration(imageQuality: 100),
           replyMessageColor: theme.replyMessageColor,
           defaultSendButtonColor: theme.sendButtonColor,
           replyDialogColor: theme.replyDialogColor,
@@ -186,9 +188,24 @@ class _ChatScreenState extends State<ChatScreen> {
           textFieldBackgroundColor: theme.textFieldBackgroundColor,
           closeIconColor: theme.closeIconColor,
           textFieldConfig: TextFieldConfiguration(
-            onMessageTyping: (status) {
+            onMessageTyping: (status) async {
+              // if (status == TypeWriterStatus.typing) {
+              //   await widget.serverpodController.module.typingIndicator
+              //       .sendStreamMessage(
+              //     cl.TypeIndicator(
+              //       status: true,
+              //       typerID: currentUser.id!,
+              //     ),
+              //   );
+              // }
+              // if (status == TypeWriterStatus.typed) {
+              //   await widget.serverpodController.module.typingIndicator
+              //       .sendStreamMessage(cl.TypeIndicator(
+              //           status: false, typerID: currentUser.id!));
+              // }
+
               /// Do with status
-              debugPrint(status.toString());
+              // debugPrint(status.toString());
             },
             compositionThresholdTime: const Duration(seconds: 1),
             textStyle: TextStyle(color: theme.textFieldTextColor),
@@ -206,29 +223,42 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         chatBubbleConfig: ChatBubbleConfiguration(
           outgoingChatBubbleConfig: ChatBubble(
+            textStyle: const TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
             linkPreviewConfig: LinkPreviewConfiguration(
+              linkStyle: const TextStyle(
+                color: Colors.black,
+                decoration: TextDecoration.underline,
+              ),
               backgroundColor: theme.linkPreviewOutgoingChatColor,
               bodyStyle: theme.outgoingChatLinkBodyStyle,
               titleStyle: theme.outgoingChatLinkTitleStyle,
             ),
-            receiptsWidgetConfig:
-                const ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
+            receiptsWidgetConfig: const ReceiptsWidgetConfig(
+                showReceiptsIn: ShowReceiptsIn.lastMessage),
             color: theme.outgoingChatBubbleColor,
+            readIndicatorColor: theme.indicatorReadColor,
+            filledReadIndicatorColor: theme.filledReadIndicatorColor,
           ),
           inComingChatBubbleConfig: ChatBubble(
+            textStyle: const TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+            ),
             linkPreviewConfig: LinkPreviewConfiguration(
-              linkStyle: TextStyle(
-                color: theme.inComingChatBubbleTextColor,
+              linkStyle: const TextStyle(
+                color: Colors.black,
                 decoration: TextDecoration.underline,
               ),
               backgroundColor: theme.linkPreviewIncomingChatColor,
               bodyStyle: theme.incomingChatLinkBodyStyle,
               titleStyle: theme.incomingChatLinkTitleStyle,
             ),
-            textStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
             onMessageRead: (message) {
-              /// send your message reciepts to the other client
-              debugPrint('Message Read');
+              debugPrint('Message Read: ${message.id}');
+              // widget.serverpodController.markMessageRead(int.parse(message.id));
             },
             senderNameTextStyle:
                 TextStyle(color: theme.inComingChatBubbleTextColor),
@@ -249,10 +279,6 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: theme.reactionPopupColor,
         ),
         messageConfig: MessageConfiguration(
-          voiceMessageConfig: VoiceMessageConfiguration(
-              decoration: BoxDecoration(
-            color: Colors.blueAccent,
-          )),
           messageReactionConfig: MessageReactionConfiguration(
             backgroundColor: theme.messageReactionBackGroundColor,
             borderColor: theme.messageReactionBackGroundColor,
@@ -269,7 +295,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: theme.inComingChatBubbleColor,
                 boxShadow: [
                   BoxShadow(
-                    color: isDarkTheme ? Colors.black12 : Colors.grey.shade200,
+                    color: Colors.grey.shade200,
                     offset: const Offset(0, 20),
                     blurRadius: 40,
                   )
@@ -306,6 +332,12 @@ class _ChatScreenState extends State<ChatScreen> {
               defaultIconColor: theme.shareIconColor,
             ),
           ),
+          voiceMessageConfig: VoiceMessageConfiguration(
+            itemColor: theme.voiceMessageColor,
+            // decoration: BoxDecoration(
+            //   color: theme.voiceMessageColor,
+            // ),
+          ),
         ),
         profileCircleConfig: const ProfileCircleConfiguration(
           profileImageUrl: Data.profileImage,
@@ -319,7 +351,7 @@ class _ChatScreenState extends State<ChatScreen> {
             highlightScale: 1.1,
           ),
           textStyle: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.25,
           ),
@@ -373,17 +405,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void _onThemeIconTap() {
-    setState(() {
-      if (isDarkTheme) {
-        theme = LightTheme();
-        isDarkTheme = false;
-      } else {
-        theme = DarkTheme();
-        isDarkTheme = true;
-      }
-    });
-  }
+  void _onThemeIconTap() {}
 
   void _showImageDialog(BuildContext context, String imageUrl) {
     showModalBottomSheet(

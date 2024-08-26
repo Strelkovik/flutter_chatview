@@ -84,37 +84,45 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        VoiceMessagePlayer(
-          innerPadding: 6,
-          pauseIcon: widget.config?.pauseIcon ??
-              Icon(
-                Icons.stop,
-                color: widget.isMessageBySender ? mainColor : Colors.white,
-              ),
-          playIcon: widget.config?.playIcon ??
-              Icon(
-                Icons.play_arrow,
-                color: widget.isMessageBySender ? mainColor : Colors.white,
-              ),
-          circlesColor: widget.isMessageBySender ? Colors.white : mainColor,
+        Container(
+          margin: EdgeInsets.fromLTRB(
+              5, 0, 6, widget.message.reaction.reactions.isNotEmpty ? 15 : 2),
+          child: VoiceMessagePlayer(
+            innerPadding: 6,
+            stopDownloadingIcon: Icon(
+              Icons.close,
+              color: widget.config?.itemColor ?? Colors.white,
+            ),
+            pauseIcon: widget.config?.pauseIcon ??
+                Icon(
+                  Icons.stop,
+                  color: widget.config?.itemColor ?? Colors.white,
+                  size: 30,
+                ),
+            playIcon: Icon(
+              Icons.play_arrow,
+              color: widget.config?.itemColor ?? Colors.white,
+              size: 30,
+            ),
+            circlesColor: widget.isMessageBySender ? mainColor : Colors.white,
 
-          circlesTextStyle: widget.isMessageBySender
-              ? widget.inComingChatBubbleConfig?.textStyle
-                      ?.copyWith(fontSize: 10) ??
-                  const TextStyle(color: Colors.white, fontSize: 10)
-              : widget.outgoingChatBubbleConfig?.textStyle
-                      ?.copyWith(fontSize: 10) ??
-                  const TextStyle(color: Colors.white, fontSize: 10),
-          playPauseButtonLoadingColor: widget.config?.itemColor ?? Colors.white,
+            circlesTextStyle: widget.isMessageBySender
+                ? widget.inComingChatBubbleConfig?.textStyle
+                        ?.copyWith(fontSize: 10) ??
+                    const TextStyle(color: Colors.white, fontSize: 10)
+                : widget.outgoingChatBubbleConfig?.textStyle
+                        ?.copyWith(fontSize: 10) ??
+                    const TextStyle(color: Colors.white, fontSize: 10),
+            playPauseButtonLoadingColor:
+                widget.config?.itemColor ?? Colors.white,
 
-          backgroundColor: widget.isMessageBySender
-              ? mainColor
-              : widget.inComingChatBubbleConfig?.color ?? Colors.white,
-          activeSliderColor: widget.isMessageBySender
-              ? widget.inComingChatBubbleConfig?.color ?? Colors.white
-              : mainColor,
-          // circlesColor: Colors.white,
-          controller: voiceController,
+            backgroundColor: widget.isMessageBySender
+                ? mainColor
+                : widget.inComingChatBubbleConfig?.color ?? Colors.white,
+            activeSliderColor: widget.config?.itemColor ?? Colors.white,
+            // circlesColor: Colors.white,
+            controller: voiceController,
+          ),
         ),
         if (widget.message.reaction.reactions.isNotEmpty)
           ReactionWidget(
@@ -123,7 +131,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
             messageReactionConfig: widget.messageReactionConfig,
           ),
         Positioned(
-          bottom: 5,
+          bottom: widget.message.reaction.reactions.isNotEmpty ? 18 : 5,
           right: widget.isMessageBySender ? 15 : 0,
           child: SizedBox(
             width: 55,
@@ -131,8 +139,8 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
             child: ReadIndicator(
               message: widget.message,
               isMessageBySender: widget.isMessageBySender,
-              textStyle: TextStyle(
-                color: widget.isMessageBySender ? Colors.white : Colors.black,
+              textStyle: const TextStyle(
+                color: Colors.black,
                 fontSize: 10,
               ),
               indicatorColor:

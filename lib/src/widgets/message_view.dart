@@ -213,6 +213,7 @@ class _MessageViewState extends State<MessageView>
                         bottom: 0,
                         right: 5,
                         child: ReadIndicator(
+                          padding: const EdgeInsets.all(3),
                           message: widget.message,
                           isMessageBySender: widget.isMessageBySender,
                           indicatorColor: widget

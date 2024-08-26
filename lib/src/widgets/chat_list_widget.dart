@@ -165,88 +165,93 @@ class _ChatListWidgetState extends State<ChatListWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ValueListenableBuilder<bool>(
-          valueListenable: _isNextPageLoading,
-          builder: (_, isNextPageLoading, child) {
-            if (isNextPageLoading &&
-                (featureActiveConfig?.enablePagination ?? false)) {
-              return SizedBox(
-                height: Scaffold.of(context).appBarMaxHeight,
-                child: Center(
-                  child:
-                      widget.loadingWidget ?? const CircularProgressIndicator(),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-        Expanded(
-          child: ValueListenableBuilder<bool>(
-              valueListenable: updateChatList,
-              builder: (_, updateChatList, child) {
-                return ValueListenableBuilder<bool>(
-                  valueListenable: showPopUp,
-                  builder: (_, showPopupValue, child) {
-                    return Stack(
-                      children: [
-                        ChatGroupedListWidget(
-                          showPopUp: showPopupValue,
-                          scrollController: scrollController,
-                          isEnableSwipeToSeeTime:
-                              featureActiveConfig?.enableSwipeToSeeTime ?? true,
-                          chatBackgroundConfig: widget.chatBackgroundConfig,
-                          assignReplyMessage: widget.assignReplyMessage,
-                          replyMessage: widget.replyMessage,
-                          swipeToReplyConfig: widget.swipeToReplyConfig,
-                          repliedMessageConfig: widget.repliedMessageConfig,
-                          profileCircleConfig: widget.profileCircleConfig,
-                          messageConfig: widget.messageConfig,
-                          chatBubbleConfig: widget.chatBubbleConfig,
-                          typeIndicatorConfig: widget.typeIndicatorConfig,
-                          onChatBubbleLongPress:
-                              (yCoordinate, xCoordinate, message) {
-                            if (featureActiveConfig?.enableReactionPopup ??
-                                false) {
-                              _reactionPopupKey.currentState?.refreshWidget(
-                                message: message,
-                                xCoordinate: xCoordinate,
-                                yCoordinate: yCoordinate < 0
-                                    ? -(yCoordinate) - 5
-                                    : yCoordinate,
-                              );
-                              showPopUp.value = true;
-                            }
-                            if (featureActiveConfig?.enableReplySnackBar ??
-                                false) {
-                              _showReplyPopup(
-                                message: message,
-                                sentByCurrentUser:
-                                    message.sentBy == currentUser?.id,
-                              );
-                            }
-                          },
-                          onChatListTap: _onChatListTap,
-                        ),
-                        if (featureActiveConfig?.enableReactionPopup ?? false)
-                          ReactionPopup(
-                            key: _reactionPopupKey,
-                            reactionPopupConfig: widget.reactionPopupConfig,
-                            onTap: _onChatListTap,
-                            showPopUp: showPopupValue,
-                            emojiPickerSheetConfig:
-                                widget.emojiPickerSheetConfig,
-                          ),
-                      ],
-                    );
-                  },
+    return GestureDetector(
+      onTap: () => _onChatListTap(),
+      child: Column(
+        children: [
+          ValueListenableBuilder<bool>(
+            valueListenable: _isNextPageLoading,
+            builder: (_, isNextPageLoading, child) {
+              if (isNextPageLoading &&
+                  (featureActiveConfig?.enablePagination ?? false)) {
+                return SizedBox(
+                  height: Scaffold.of(context).appBarMaxHeight,
+                  child: Center(
+                    child: widget.loadingWidget ??
+                        const CircularProgressIndicator(),
+                  ),
                 );
-              }),
-        ),
-      ],
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+          Expanded(
+            child: ValueListenableBuilder<bool>(
+                valueListenable: updateChatList,
+                builder: (_, updateChatList, child) {
+                  return ValueListenableBuilder<bool>(
+                    valueListenable: showPopUp,
+                    builder: (_, showPopupValue, child) {
+                      return Stack(
+                        children: [
+                          ChatGroupedListWidget(
+                            showPopUp: showPopupValue,
+                            scrollController: scrollController,
+                            isEnableSwipeToSeeTime:
+                                featureActiveConfig?.enableSwipeToSeeTime ??
+                                    true,
+                            chatBackgroundConfig: widget.chatBackgroundConfig,
+                            assignReplyMessage: widget.assignReplyMessage,
+                            replyMessage: widget.replyMessage,
+                            swipeToReplyConfig: widget.swipeToReplyConfig,
+                            repliedMessageConfig: widget.repliedMessageConfig,
+                            profileCircleConfig: widget.profileCircleConfig,
+                            messageConfig: widget.messageConfig,
+                            chatBubbleConfig: widget.chatBubbleConfig,
+                            typeIndicatorConfig: widget.typeIndicatorConfig,
+                            onChatBubbleLongPress:
+                                (yCoordinate, xCoordinate, message) {
+                              if (featureActiveConfig?.enableReactionPopup ??
+                                  false) {
+                                _reactionPopupKey.currentState?.refreshWidget(
+                                  message: message,
+                                  xCoordinate: xCoordinate,
+                                  yCoordinate: yCoordinate < 0
+                                      ? -(yCoordinate) - 5
+                                      : yCoordinate,
+                                );
+                                showPopUp.value = true;
+                              }
+                              if (featureActiveConfig?.enableReplySnackBar ??
+                                  false) {
+                                _showReplyPopup(
+                                  message: message,
+                                  sentByCurrentUser:
+                                      message.sentBy == currentUser?.id,
+                                );
+                              }
+                            },
+                            onChatListTap: _onChatListTap,
+                          ),
+                          if (featureActiveConfig?.enableReactionPopup ?? false)
+                            ReactionPopup(
+                              key: _reactionPopupKey,
+                              reactionPopupConfig: widget.reactionPopupConfig,
+                              onTap: _onChatListTap,
+                              showPopUp: showPopupValue,
+                              emojiPickerSheetConfig:
+                                  widget.emojiPickerSheetConfig,
+                            ),
+                        ],
+                      );
+                    },
+                  );
+                }),
+          ),
+          // Text('123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123'),
+        ],
+      ),
     );
   }
 
