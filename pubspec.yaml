@@ -37,7 +37,6 @@ dependencies:
   audioplayers: ^5.2.1
   emoji_picker_flutter: ^2.2.0
   camera: ^0.10.0
-  video_player: ^2.8.7
   file_picker: ^8.0.0
   flutter_native_contact_picker: ^0.0.6
   json_annotation: ^4.8.1

@@ -7,11 +7,12 @@ import '../../recorderSize.dart';
 class CameraViewPage extends StatelessWidget {
   final Function(String) onDataCameraReceived;
   final Color IconBackGroundColor;
-  const CameraViewPage(
-      {super.key,
-      required this.path,
-      required this.IconBackGroundColor,
-      required this.onDataCameraReceived});
+  const CameraViewPage({
+    super.key,
+    required this.path,
+    required this.IconBackGroundColor,
+    required this.onDataCameraReceived,
+  });
   final String path;
 
   @override
@@ -44,9 +45,8 @@ class CameraViewPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         onDataCameraReceived(path);
-                        Navigator.of(context).pop();
                       },
-                      child: Text('Отправить'),
+                      child: const Text('Отправить'),
                     ),
                   ),
                 )),

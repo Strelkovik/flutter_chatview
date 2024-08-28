@@ -18,7 +18,6 @@ import '../recorderSize.dart';
 import '../widgets/lock_record.dart';
 import '../widgets/sound_recorder_when_locked_design.dart';
 import 'camera/CameraView.dart';
-import 'camera/VideoView.dart';
 import 'camera/camera.dart';
 import 'filePicker.dart';
 
@@ -202,11 +201,6 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
   @override
   Widget build(BuildContext context) {
     RecorderSize().init(context);
-    soundRecordNotifier.maxRecordTime = widget.maxRecordTimeInSecond;
-    soundRecordNotifier.startRecording = widget.functionStartRecording ?? () {};
-    soundRecordNotifier.stopRecording =
-        widget.functionStopRecording ?? (String x) {};
-    soundRecordNotifier.sendRequestFunction = widget.functionSendVoice;
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => CameraState()),
@@ -455,8 +449,7 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
 
   Widget recordVoice(SoundRecordNotifier state) {
     if (kDebugMode) {
-      print(
-          "YYYYYYYYYYYYY state.lockScreenRecord    ${state.lockScreenRecord}            YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+      print(" state.lockScreenRecord ${state.lockScreenRecord}");
     }
     if (state.lockScreenRecord == true) {
       return SoundRecorderWhenLockedDesign(
@@ -571,7 +564,7 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
   }
 
   Future<void> pickFile({required List<String> extension}) async {
-    var status = await Permission.storage.request();
+    var status = await Permission.photos.request();
     if (status.isGranted) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.image,
@@ -593,27 +586,34 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
             context,
             MaterialPageRoute(
               builder: (context) => CameraViewPage(
-                  IconBackGroundColor: widget.recordIconBackGroundColor!,
-                  path: result.files.single.path!,
-                  onDataCameraReceived: widget.functionDataCameraReceived),
+                IconBackGroundColor: widget.recordIconBackGroundColor!,
+                path: result.files.single.path!,
+                onDataCameraReceived: (s) {
+                  widget.functionDataCameraReceived(s);
+                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                },
+              ),
             ),
           );
-        } else if (result.files.single.path!.split('.').last.toLowerCase() ==
-                'mp4' ||
-            result.files.single.path!.split('.').last.toLowerCase() == 'avi' ||
-            result.files.single.path!.split('.').last.toLowerCase() == 'mov' ||
-            result.files.single.path!.split('.').last.toLowerCase() == 'vmv' ||
-            result.files.single.path!.split('.').last.toLowerCase() == 'flv') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VideoViewPage(
-                  IconBackGroundColor: widget.recordIconBackGroundColor!,
-                  path: result.files.single.path!,
-                  onDataVideoReceived: widget.functionDataCameraReceived),
-            ),
-          );
-        } else {
+        }
+        // else if (result.files.single.path!.split('.').last.toLowerCase() ==
+        //         'mp4' ||
+        //     result.files.single.path!.split('.').last.toLowerCase() == 'avi' ||
+        //     result.files.single.path!.split('.').last.toLowerCase() == 'mov' ||
+        //     result.files.single.path!.split('.').last.toLowerCase() == 'vmv' ||
+        //     result.files.single.path!.split('.').last.toLowerCase() == 'flv') {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => VideoViewPage(
+        //           IconBackGroundColor: widget.recordIconBackGroundColor!,
+        //           path: result.files.single.path!,
+        //           onDataVideoReceived: widget.functionDataCameraReceived),
+        //     ),
+        //   );
+        // }
+        else {
           Navigator.push(
             context,
             MaterialPageRoute(

@@ -60,7 +60,11 @@ class CameraState extends ChangeNotifier {
         builder: (builder) => CameraViewPage(
           path: file.path,
           IconBackGroundColor: IconBackGroundColor,
-          onDataCameraReceived: onDataCameraReceived,
+          onDataCameraReceived: (s) {
+            onDataCameraReceived(s);
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
         ),
       ),
     );

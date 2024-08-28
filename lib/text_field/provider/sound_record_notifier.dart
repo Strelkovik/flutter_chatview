@@ -106,13 +106,14 @@ class SoundRecordNotifier extends ChangeNotifier {
     });
   }
 
-  finishRecording() {
+  finishRecording() async {
     if (buttonPressed) {
       if (second > 1 || minute > 0) {
+        resetEdgePadding();
         String path = mPath;
         String time = "$minute:$second";
-        sendRequestFunction(File.fromUri(Uri(path: path)), time);
         stopRecording!(time);
+        sendRequestFunction(File.fromUri(Uri(path: path)), time);
       }
       // playSound('packages/voice_message_recorder/assets/sounds/delete.mp3');
     }
@@ -134,6 +135,7 @@ class SoundRecordNotifier extends ChangeNotifier {
     if (_timer != null) _timer!.cancel();
     if (_timerCounter != null) _timerCounter!.cancel();
     recordMp3.stop();
+
     notifyListeners();
   }
 
