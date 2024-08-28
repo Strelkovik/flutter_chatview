@@ -109,7 +109,7 @@ class SoundRecordNotifier extends ChangeNotifier {
   finishRecording() async {
     if (buttonPressed) {
       if (second > 1 || minute > 0) {
-        resetEdgePadding();
+        await resetEdgePadding();
         String path = mPath;
         String time = "$minute:$second";
         stopRecording!(time);
@@ -134,7 +134,7 @@ class SoundRecordNotifier extends ChangeNotifier {
     lockScreenRecord = false;
     if (_timer != null) _timer!.cancel();
     if (_timerCounter != null) _timerCounter!.cancel();
-    recordMp3.stop();
+    await recordMp3.stop();
 
     notifyListeners();
   }
