@@ -312,7 +312,7 @@ class _ChatListWidgetState extends State<ChatListWidget>
                               ),
                               TextButton(
                                 child: const Text('Удалить',
-                                    style: const TextStyle(color: Colors.red)),
+                                    style: TextStyle(color: Colors.red)),
                                 onPressed: () {
                                   replyPopup?.onUnsendTap?.call(
                                     message,

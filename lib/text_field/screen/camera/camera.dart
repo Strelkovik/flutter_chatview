@@ -106,6 +106,7 @@ class CameraScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cameraState = Provider.of<CameraState>(context);
+
     return Scaffold(
       body: Stack(
         children: [

@@ -86,8 +86,7 @@ class ShowMicWithText extends StatelessWidget {
         if (shouldShowText)
           Flexible(
             child: Padding(
-              padding:
-                  Spacing.only(left: RecorderSize.x8, right: RecorderSize.x8),
+              padding: Spacing.only(left: RecorderSize.x8, right: 20),
               child: DefaultTextStyle(
                 overflow: TextOverflow.clip,
                 maxLines: 1,

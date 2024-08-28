@@ -21,9 +21,6 @@ class SoundRecordNotifier extends ChangeNotifier {
   /// This time for counter wait about 1 send to increase counter
   Timer? _timerCounter;
 
-  /// Use last to check where the last draggable in X
-  double last = 0;
-
   /// Used when user enter the needed path
   String initialStorePathRecord = "";
 
@@ -67,6 +64,7 @@ class SoundRecordNotifier extends ChangeNotifier {
   /// false
   late bool lockScreenRecord;
   late String mPath;
+  late bool showAnimation;
 
   /// function called when start recording
   Function()? startRecording;
@@ -87,6 +85,7 @@ class SoundRecordNotifier extends ChangeNotifier {
     this.minute = 0,
     this.second = 0,
     this.buttonPressed = false,
+    this.showAnimation = false,
     this.loopActive = false,
     this.mPath = '',
     this.startRecord = false,
@@ -190,39 +189,33 @@ class SoundRecordNotifier extends ChangeNotifier {
         isLocked = true;
         lockScreenRecord = true;
         hightValue = 50;
-        notifyListeners();
       }
       if (hightValue < 0) hightValue = 0;
       heightPosition = hightValue;
       lockScreenRecord = isLocked;
-      notifyListeners();
 
       /// this operation for update X oriantation
       /// draggable to the left or right place
       try {
-        RenderBox box = key.currentContext?.findRenderObject() as RenderBox;
-        Offset position = box.localToGlobal(Offset.zero);
-        if (position.dx <= MediaQuery.of(context).size.width * 0.6) {
-          String time = "$minute:$second";
-          if (stopRecording != null) stopRecording!(time);
-          resetEdgePadding();
-        } else if (x.dx >= MediaQuery.of(context).size.width) {
+        // Ширина экрана
+        showAnimation = true;
+
+        final double screenWidth = MediaQuery.sizeOf(context).width;
+
+        edge = screenWidth - x.dx;
+        print("the edge is ${edge / screenWidth}");
+
+        if (edge < 40) {
           edge = 0;
-          edge = 0;
-        } else {
-          if (x.dx <= MediaQuery.of(context).size.width * 0.5) {}
-          if (last < x.dx) {
-            edge = edge -= x.dx / 200;
-            if (edge < 0) {
-              edge = 0;
-            }
-          } else if (last > x.dx) {
-            edge = edge += x.dx / 200;
-          }
-          last = x.dx;
+          showAnimation = false;
         }
-        // ignore: empty_catches
-      } catch (e) {}
+        if (edge > screenWidth) edge = screenWidth;
+        if (edge / screenWidth > 0.4) {
+          resetEdgePadding();
+        }
+      } catch (e) {
+        // Обработка ошибок (например, если key не доступен)
+      }
       notifyListeners();
     }
   }
