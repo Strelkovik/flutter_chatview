@@ -582,6 +582,16 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
   }
 
   Future<void> pickFile({required List<String> extension}) async {
+    bool hasPermission = false;
+    if (Platform.isIOS) {
+      hasPermission = await Permission.storage.request().isGranted;
+    } else {
+      hasPermission = await Permission.photos.request().isGranted;
+    }
+
+    if (!hasPermission) {
+      return;
+    }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       // allowedExtensions: extension,
