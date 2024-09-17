@@ -212,8 +212,9 @@ class _ChatListWidgetState extends State<ChatListWidget>
                             typeIndicatorConfig: widget.typeIndicatorConfig,
                             onChatBubbleLongPress:
                                 (yCoordinate, xCoordinate, message) {
-                              if (featureActiveConfig?.enableReactionPopup ??
-                                  false) {
+                              if ((featureActiveConfig?.enableReactionPopup ??
+                                      false) &&
+                                  message.messageType != MessageType.custom) {
                                 _reactionPopupKey.currentState?.refreshWidget(
                                   message: message,
                                   xCoordinate: xCoordinate,
@@ -234,7 +235,8 @@ class _ChatListWidgetState extends State<ChatListWidget>
                             },
                             onChatListTap: _onChatListTap,
                           ),
-                          if (featureActiveConfig?.enableReactionPopup ?? false)
+                          if ((featureActiveConfig?.enableReactionPopup ??
+                              false))
                             ReactionPopup(
                               key: _reactionPopupKey,
                               reactionPopupConfig: widget.reactionPopupConfig,
@@ -329,7 +331,8 @@ class _ChatListWidgetState extends State<ChatListWidget>
                     },
                     onReplyTap: () {
                       widget.assignReplyMessage(message);
-                      if (featureActiveConfig?.enableReactionPopup ?? false) {
+                      if ((featureActiveConfig?.enableReactionPopup ?? false) &&
+                          message.messageType != MessageType.custom) {
                         showPopUp.value = false;
                       }
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();

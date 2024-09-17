@@ -35,7 +35,7 @@ class MessageConfiguration {
   final EmojiMessageConfiguration? emojiMessageConfig;
 
   /// Provides builder to create view for custom messages.
-  final Widget Function(Message)? customMessageBuilder;
+  final Future<CustomMessageModel?> Function(int id)? adMessageModel;
 
   /// Configurations for voice message bubble
   final VoiceMessageConfiguration? voiceMessageConfig;
@@ -47,8 +47,8 @@ class MessageConfiguration {
     this.imageMessageConfig,
     this.messageReactionConfig,
     this.emojiMessageConfig,
-    this.customMessageBuilder,
     this.voiceMessageConfig,
     this.customMessageReplyViewBuilder,
+    this.adMessageModel,
   });
 }

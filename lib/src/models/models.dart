@@ -46,3 +46,4 @@ export 'reply_suggestions_config.dart';
 export 'suggestion_list_config.dart';
 export 'suggestion_item_config.dart';
 export 'voice_message_configuration.dart';
+export 'custom_message_model.dart';

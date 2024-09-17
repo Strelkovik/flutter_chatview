@@ -47,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
   LightTheme theme = LightTheme();
   bool isDarkTheme = false;
   final _chatController = ChatController(
-    initialMessageList: [],
+    initialMessageList: Data.messageList,
     scrollController: ScrollController(),
     currentUser: ChatUser(
       id: '1',
@@ -82,6 +82,11 @@ class _ChatScreenState extends State<ChatScreen> {
     _chatController.setTypingIndicator = !_chatController.showTypingIndicator;
   }
 
+  void _showLoadingIndicator() {
+    _chatController.setAttachmentLoadingIndicator =
+        !_chatController.showAttachmentLoadingIndicator;
+  }
+
   void receiveMessage() async {
     _chatController.addMessage(
       Message(
@@ -106,8 +111,12 @@ class _ChatScreenState extends State<ChatScreen> {
         chatController: _chatController,
         onSendTap: _onSendTap,
         featureActiveConfig: const FeatureActiveConfig(
-          lastSeenAgoBuilderVisibility: true,
-          receiptsBuilderVisibility: true,
+          lastSeenAgoBuilderVisibility: false,
+          enablePagination: true,
+          receiptsBuilderVisibility: false,
+          enableSwipeToSeeTime: false,
+          enableDoubleTapToLike: false,
+          enableOtherUserName: false,
         ),
         chatViewState: ChatViewState.hasMessages,
         chatViewStateConfig: ChatViewStateConfiguration(
@@ -149,6 +158,14 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: _showHideTypingIndicator,
               icon: Icon(
                 Icons.keyboard,
+                color: theme.themeIconColor,
+              ),
+            ),
+            IconButton(
+              tooltip: 'Toggle TypingIndicator',
+              onPressed: _showLoadingIndicator,
+              icon: Icon(
+                Icons.file_download,
                 color: theme.themeIconColor,
               ),
             ),
@@ -278,6 +295,20 @@ class _ChatScreenState extends State<ChatScreen> {
           backgroundColor: theme.reactionPopupColor,
         ),
         messageConfig: MessageConfiguration(
+          customMessageReplyViewBuilder: (rm) => Text(
+            'Объявление',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              color: theme.replyMessageColor,
+            ),
+          ),
+          adMessageModel: (s) async => CustomMessageModel(
+            title: 'title',
+            imageUrl: 'imageUrl',
+            price: 12321,
+          ),
           messageReactionConfig: MessageReactionConfiguration(
             backgroundColor: theme.messageReactionBackGroundColor,
             borderColor: theme.messageReactionBackGroundColor,

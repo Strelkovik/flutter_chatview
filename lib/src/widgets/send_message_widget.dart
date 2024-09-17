@@ -24,7 +24,7 @@ import 'dart:io' if (kIsWeb) 'dart:html';
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/utils/package_strings.dart';
-import 'package:chatview/src/widgets/reply_message_view.dart';
+import 'package:chatview/src/widgets/views/reply_message_view.dart';
 import 'package:chatview/text_field/audio_encoder_type.dart';
 import 'package:chatview/text_field/screen/voice_message_recorder.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -139,6 +139,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                       children: [
                         ValueListenableBuilder<ReplyMessage>(
                           builder: (_, state, child) {
+                            print('${state.messageType.toString()}');
                             final replyTitle =
                                 "${PackageStrings.replyTo} $_replyTo";
                             if (state.message.isNotEmpty) {
@@ -285,7 +286,8 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
   }
 
   void _assignRepliedMessage() {
-    if (replyMessage.message.isNotEmpty) {
+    if (replyMessage.message.isNotEmpty ||
+        replyMessage.messageType == MessageType.custom) {
       _replyMessage.value = const ReplyMessage();
     }
   }
@@ -324,11 +326,9 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
   }
 
   double get _bottomPadding => (!kIsWeb && Platform.isIOS)
-      ? (_focusNode.hasFocus
-          ? bottomPadding1
-          : View.of(context).viewPadding.bottom > 0
-              ? bottomPadding2
-              : bottomPadding3)
+      ? (View.of(context).viewPadding.bottom > 0
+          ? bottomPadding2
+          : bottomPadding3)
       : bottomPadding3;
 
   @override

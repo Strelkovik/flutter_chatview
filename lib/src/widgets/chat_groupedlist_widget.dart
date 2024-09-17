@@ -21,6 +21,7 @@
  */
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
+import 'package:chatview/src/widgets/loading_indicator.dart';
 import 'package:chatview/src/widgets/suggestions/suggestion_list.dart';
 import 'package:chatview/src/widgets/type_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -211,6 +212,19 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
                 typeIndicatorConfig: widget.typeIndicatorConfig,
                 chatBubbleConfig: chatBubbleConfig?.inComingChatBubbleConfig,
                 showIndicator: value,
+              ),
+            ),
+          if (chatController != null)
+            ValueListenableBuilder(
+              valueListenable: chatController!.attachmentLoadingNotifier,
+              builder: (context, value, child) => Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoadingIndicator(
+                    showIndicator: value,
+                  ),
+                ),
               ),
             ),
           if (chatController != null)

@@ -227,7 +227,7 @@ class _VoiceMessageRecorder extends State<VoiceMessageRecorder> {
 
     return Container(
       decoration: BoxDecoration(color: widget.backGroundColor),
-      padding: Spacing.symmetric(vertical: widget.verticalPadding!),
+      // padding: Spacing.symmetric(vertical: widget.verticalPadding!),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

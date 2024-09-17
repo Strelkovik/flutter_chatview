@@ -26,9 +26,9 @@ import 'package:flutter/material.dart';
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/models/models.dart';
 
-import '../utils/constants/constants.dart';
-import 'link_preview.dart';
-import 'reaction_widget.dart';
+import '../../utils/constants/constants.dart';
+import '../link_preview.dart';
+import '../reaction_widget.dart';
 
 class TextMessageView extends StatelessWidget {
   const TextMessageView({

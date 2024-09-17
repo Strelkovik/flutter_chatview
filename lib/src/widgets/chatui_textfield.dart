@@ -172,40 +172,38 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
                       ),
                 )
               else
-                Expanded(
-                  child: TextField(
-                    focusNode: widget.focusNode,
-                    controller: widget.textEditingController,
-                    style: textFieldConfig?.textStyle ??
-                        const TextStyle(color: Colors.white),
-                    maxLines: textFieldConfig?.maxLines ?? 5,
-                    minLines: textFieldConfig?.minLines ?? 1,
-                    keyboardType: textFieldConfig?.textInputType,
-                    inputFormatters: textFieldConfig?.inputFormatters,
-                    onChanged: _onChanged,
-                    enabled: textFieldConfig?.enabled,
-                    textCapitalization: textFieldConfig?.textCapitalization ??
-                        TextCapitalization.sentences,
-                    decoration: InputDecoration(
-                      hintText:
-                          textFieldConfig?.hintText ?? PackageStrings.message,
-                      fillColor: sendMessageConfig?.textFieldBackgroundColor ??
-                          Colors.white,
-                      filled: true,
-                      hintStyle: textFieldConfig?.hintStyle ??
-                          TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey.shade600,
-                            letterSpacing: 0.25,
-                          ),
-                      contentPadding: textFieldConfig?.contentPadding ??
-                          const EdgeInsets.symmetric(horizontal: 6),
-                      border: outlineBorder,
-                      focusedBorder: outlineBorder,
-                      enabledBorder: outlineBorder,
-                      disabledBorder: outlineBorder,
-                    ),
+                TextField(
+                  focusNode: widget.focusNode,
+                  controller: widget.textEditingController,
+                  style: textFieldConfig?.textStyle ??
+                      const TextStyle(color: Colors.white),
+                  maxLines: textFieldConfig?.maxLines ?? 5,
+                  minLines: textFieldConfig?.minLines ?? 1,
+                  keyboardType: textFieldConfig?.textInputType,
+                  inputFormatters: textFieldConfig?.inputFormatters,
+                  onChanged: _onChanged,
+                  enabled: textFieldConfig?.enabled,
+                  textCapitalization: textFieldConfig?.textCapitalization ??
+                      TextCapitalization.sentences,
+                  decoration: InputDecoration(
+                    hintText:
+                        textFieldConfig?.hintText ?? PackageStrings.message,
+                    fillColor: sendMessageConfig?.textFieldBackgroundColor ??
+                        Colors.white,
+                    filled: true,
+                    hintStyle: textFieldConfig?.hintStyle ??
+                        TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey.shade600,
+                          letterSpacing: 0.25,
+                        ),
+                    contentPadding: textFieldConfig?.contentPadding ??
+                        const EdgeInsets.symmetric(horizontal: 6),
+                    border: outlineBorder,
+                    focusedBorder: outlineBorder,
+                    enabledBorder: outlineBorder,
+                    disabledBorder: outlineBorder,
                   ),
                 ),
               ValueListenableBuilder<String>(

@@ -27,9 +27,9 @@ import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/models/models.dart';
 import 'package:flutter/material.dart';
 
-import 'reaction_widget.dart';
-import 'read_indicator.dart';
-import 'share_icon.dart';
+import '../reaction_widget.dart';
+import '../read_indicator.dart';
+import '../share_icon.dart';
 
 class ImageMessageView extends StatelessWidget {
   const ImageMessageView({

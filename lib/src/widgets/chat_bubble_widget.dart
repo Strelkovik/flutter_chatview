@@ -26,7 +26,7 @@ import 'package:flutter/material.dart';
 
 import '../../chatview.dart';
 import 'message_time_widget.dart';
-import 'message_view.dart';
+import 'views/message_view.dart';
 import 'profile_circle.dart';
 import 'reply_message_widget.dart';
 import 'swipe_to_reply.dart';
@@ -338,7 +338,8 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           outgoingChatBubbleConfig:
               widget.chatBubbleConfig?.outgoingChatBubbleConfig,
           isLongPressEnable:
-              (featureActiveConfig?.enableReactionPopup ?? true) ||
+              ((featureActiveConfig?.enableReactionPopup ?? true) &&
+                      widget.message.messageType != MessageType.custom) ||
                   (featureActiveConfig?.enableReplySnackBar ?? true),
           inComingChatBubbleConfig:
               widget.chatBubbleConfig?.inComingChatBubbleConfig,

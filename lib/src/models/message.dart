@@ -56,6 +56,9 @@ class Message {
 
   final int? messageClientId;
 
+  /// Custom entity id
+  final int? customEntityId;
+
   Message({
     this.id = '',
     required this.message,
@@ -66,6 +69,7 @@ class Message {
     this.messageType = MessageType.text,
     this.voiceMessageDuration,
     this.messageClientId,
+    this.customEntityId,
     MessageStatus status = MessageStatus.pending,
   })  : reaction = reaction ?? Reaction(reactions: [], reactedUserIds: []),
         key = GlobalKey(),

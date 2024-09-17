@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../recorderSize.dart';
-
 class CameraViewPage extends StatelessWidget {
   final Function(String) onDataCameraReceived;
   final Color IconBackGroundColor;

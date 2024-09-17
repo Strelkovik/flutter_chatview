@@ -22,14 +22,15 @@
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/widgets/chat_view_inherited_widget.dart';
 import 'package:chatview/src/widgets/read_indicator.dart';
+import 'package:chatview/src/widgets/views/custom_message_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:voice_message_player/voice_message_player.dart';
-import '../utils/constants/constants.dart';
+import '../../utils/constants/constants.dart';
 import 'image_message_view.dart';
 import 'text_message_view.dart';
-import 'reaction_widget.dart';
+import '../reaction_widget.dart';
 import 'voice_message_view.dart';
 
 class MessageView extends StatefulWidget {
@@ -252,13 +253,23 @@ class _MessageViewState extends State<MessageView>
                     config: messageConfig?.voiceMessageConfig,
                     onMaxDuration: widget.onMaxDuration,
                     isMessageBySender: widget.isMessageBySender,
-                    messageReactionConfig: messageConfig?.messageReactionConfig,
                     inComingChatBubbleConfig: widget.inComingChatBubbleConfig,
                     outgoingChatBubbleConfig: widget.outgoingChatBubbleConfig,
+                    messageReactionConfig: messageConfig?.messageReactionConfig,
                   );
-                } else if (widget.message.messageType.isCustom &&
-                    messageConfig?.customMessageBuilder != null) {
-                  return messageConfig?.customMessageBuilder!(widget.message);
+                } else if (widget.message.messageType.isCustom
+                    //  &&
+                    //     widget.message.customEntityId != null
+                    ) {
+                  final model = messageConfig!.adMessageModel!(0);
+                  return CustomMessageView(
+                    customMessageModel: model,
+                    message: widget.message,
+                    isMessageBySender: widget.isMessageBySender,
+                    inComingChatBubbleConfig: widget.inComingChatBubbleConfig,
+                    outgoingChatBubbleConfig: widget.outgoingChatBubbleConfig,
+                    messageReactionConfig: messageConfig?.messageReactionConfig,
+                  );
                 }
               }()) ??
               const SizedBox(),

@@ -36,6 +36,10 @@ class ChatController {
   /// Allow user to show typing indicator defaults to false.
   final ValueNotifier<bool> _showTypingIndicator = ValueNotifier(false);
 
+  /// Allow user to show attachment loading indicator defaults to false.
+  final ValueNotifier<bool> _showAttachmentLoadingIndicator =
+      ValueNotifier(false);
+
   /// TypingIndicator as [ValueNotifier] for [GroupedChatList] widget's typingIndicator [ValueListenableBuilder].
   ///  Use this for listening typing indicators
   ///   ```dart
@@ -43,6 +47,10 @@ class ChatController {
   ///  ```
   /// For more functionalities see [ValueNotifier].
   ValueListenable<bool> get typingIndicatorNotifier => _showTypingIndicator;
+
+  /// AttachmentLoadingIndicator as [ValueNotifier] for [GroupedChatList] widget's attachmentLoadingIndicator [ValueListenableBuilder].
+  ValueListenable<bool> get attachmentLoadingNotifier =>
+      _showAttachmentLoadingIndicator;
 
   /// Allow user to add reply suggestions defaults to empty.
   final ValueNotifier<List<SuggestionItemData>> _replySuggestion =
@@ -61,12 +69,25 @@ class ChatController {
   /// for better accessibility.
   bool get showTypingIndicator => _showTypingIndicator.value;
 
+  /// Getter for attachmentLoadingIndicator value instead of accessing [_showAttachmentLoadingIndicator.value]
+  /// for better accessibility.
+  bool get showAttachmentLoadingIndicator =>
+      _showAttachmentLoadingIndicator.value;
+
   /// Setter for changing values of typingIndicator
   /// ```dart
   ///  chatContoller.setTypingIndicator = true; // for showing indicator
   ///  chatContoller.setTypingIndicator = false; // for hiding indicator
   ///  ````
   set setTypingIndicator(bool value) => _showTypingIndicator.value = value;
+
+  /// Setter for changing values of attachmentLoadingIndicator
+  /// ```dart
+  ///  chatContoller.setAttachmentLoadingIndicator = true; // for showing indicator
+  ///  chatContoller.setAttachmentLoadingIndicator = false; // for hiding indicator
+  ///  ````
+  set setAttachmentLoadingIndicator(bool value) =>
+      _showAttachmentLoadingIndicator.value = value;
 
   /// Represents list of chat users
   List<ChatUser> otherUsers;
@@ -88,6 +109,7 @@ class ChatController {
   /// Used to dispose ValueNotifiers and Streams.
   void dispose() {
     _showTypingIndicator.dispose();
+    _showAttachmentLoadingIndicator.dispose();
     _replySuggestion.dispose();
     scrollController.dispose();
     messageStreamController.close();
