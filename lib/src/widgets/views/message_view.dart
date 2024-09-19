@@ -261,7 +261,11 @@ class _MessageViewState extends State<MessageView>
                     //  &&
                     //     widget.message.customEntityId != null
                     ) {
-                  final model = messageConfig!.adMessageModel!(0);
+                  if (widget.message.customEntityId == null) {
+                    return const SizedBox.shrink();
+                  }
+                  final model = messageConfig!
+                      .adMessageModel!(widget.message.customEntityId ?? -1);
                   return CustomMessageView(
                     customMessageModel: model,
                     message: widget.message,
