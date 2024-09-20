@@ -142,7 +142,8 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                             print('${state.messageType.toString()}');
                             final replyTitle =
                                 "${PackageStrings.replyTo} $_replyTo";
-                            if (state.message.isNotEmpty) {
+                            if (state.message.isNotEmpty ||
+                                state.messageType == MessageType.custom) {
                               return widget.replyMessageBuilder
                                       ?.call(context, state) ??
                                   Container(

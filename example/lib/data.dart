@@ -25,6 +25,7 @@ class Data {
       createdAt: DateTime.now().subtract(const Duration(days: 60)),
       sentBy: '1', // userId of who sends the message
       status: MessageStatus.read,
+      messageType: MessageType.custom,
     ),
     // Message(
     //   id: '2',
@@ -151,32 +152,5 @@ class Data {
     //   messageType: MessageType.voice,
     //   status: MessageStatus.read,
     // ),
-    Message(
-      id: '16',
-      message:
-          "https://storage.yandexcloud.net/kerla.media.dev/serverpod/chat/25/2024-08-26/2024-08-26-23%3A48.3gp",
-      createdAt: DateTime.now(),
-      sentBy: '1',
-      messageType: MessageType.voice,
-      status: MessageStatus.read,
-    ),
-    Message(
-      id: '16',
-      message:
-          "https://storage.yandexcloud.net/kerla.media.dev/serverpod/chat/25/2024-08-26/2024-08-26-23%3A02.m4a",
-      createdAt: DateTime.now(),
-      sentBy: '2',
-      messageType: MessageType.voice,
-      status: MessageStatus.read,
-    ),
-    Message(
-      id: '16',
-      message:
-          "https://storage.yandexcloud.net/kerla.media.dev/serverpod/chat/25/2024-08-26/2024-08-26-23%3A02.m4a",
-      createdAt: DateTime.now(),
-      sentBy: '1',
-      messageType: MessageType.custom,
-      status: MessageStatus.read,
-    ),
   ];
 }

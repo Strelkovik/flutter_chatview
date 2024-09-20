@@ -20,11 +20,9 @@
  * SOFTWARE.
  */
 import 'package:audio_waveforms/audio_waveforms.dart';
-import 'package:chatview/src/extensions/extensions.dart';
+import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 
-import '../models/message.dart';
-import '../models/replied_message_configuration.dart';
 import '../utils/constants/constants.dart';
 import '../utils/package_strings.dart';
 import 'chat_view_inherited_widget.dart';
@@ -154,7 +152,10 @@ class ReplyMessageWidget extends StatelessWidget {
                                       ],
                                     )
                                   : Text(
-                                      replyMessage,
+                                      message.replyMessage.messageType ==
+                                              MessageType.custom
+                                          ? 'Объявление'
+                                          : replyMessage,
                                       style: repliedMessageConfig?.textStyle ??
                                           textTheme.bodyMedium!
                                               .copyWith(color: Colors.black),

@@ -99,6 +99,9 @@ class ChatBubbleWidget extends StatefulWidget {
 class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
   String get replyMessage => widget.message.replyMessage.message;
 
+  bool get isReplyMessageCustom =>
+      widget.message.replyMessage.messageType == MessageType.custom;
+
   bool get isMessageBySender => widget.message.sentBy == currentUser?.id;
 
   bool get isLastMessage =>
@@ -324,12 +327,14 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                   ?.senderNameTextStyle,
             ),
           ),
-        if (replyMessage.isNotEmpty)
+        if (replyMessage.isNotEmpty || isReplyMessageCustom)
           widget.repliedMessageConfig?.repliedMessageWidgetBuilder != null
               ? widget.repliedMessageConfig!
                   .repliedMessageWidgetBuilder!(widget.message.replyMessage)
               : ReplyMessageWidget(
-                  message: widget.message,
+                  message: isReplyMessageCustom
+                      ? widget.message.copyWith(message: 'Объявление123')
+                      : widget.message,
                   repliedMessageConfig: widget.repliedMessageConfig,
                   onTap: () => widget.onReplyTap
                       ?.call(widget.message.replyMessage.messageId),
