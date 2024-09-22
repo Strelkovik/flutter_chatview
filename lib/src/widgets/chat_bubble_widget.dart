@@ -333,7 +333,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                   .repliedMessageWidgetBuilder!(widget.message.replyMessage)
               : ReplyMessageWidget(
                   message: isReplyMessageCustom
-                      ? widget.message.copyWith(message: 'Объявление123')
+                      ? widget.message.copyWith(message: 'Объявление')
                       : widget.message,
                   repliedMessageConfig: widget.repliedMessageConfig,
                   onTap: () => widget.onReplyTap
@@ -343,8 +343,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           outgoingChatBubbleConfig:
               widget.chatBubbleConfig?.outgoingChatBubbleConfig,
           isLongPressEnable:
-              ((featureActiveConfig?.enableReactionPopup ?? true) &&
-                      widget.message.messageType != MessageType.custom) ||
+              ((featureActiveConfig?.enableReactionPopup ?? true)) ||
                   (featureActiveConfig?.enableReplySnackBar ?? true),
           inComingChatBubbleConfig:
               widget.chatBubbleConfig?.inComingChatBubbleConfig,

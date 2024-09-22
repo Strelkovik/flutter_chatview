@@ -145,6 +145,7 @@ class Message {
     MessageStatus? status,
     bool forceNullValue = false,
     int? messageClientId,
+    int? customEntityId,
   }) {
     return Message(
       id: id ?? this.id,
@@ -158,6 +159,7 @@ class Message {
       reaction: reaction ?? this.reaction,
       replyMessage: replyMessage ?? this.replyMessage,
       status: status ?? this.status,
+      customEntityId: customEntityId ?? this.customEntityId,
     );
   }
 }
